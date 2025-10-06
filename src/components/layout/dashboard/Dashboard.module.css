@@ -2,6 +2,7 @@
     background-color: #161617;
     display: flex;
     flex-direction: column;
+    min-width: 640px;
 }
 
 .content {
