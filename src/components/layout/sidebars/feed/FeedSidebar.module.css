@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.icon {
+    height: 1rem;
+}
+
+.list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.listElement {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 15px;
+    background-color: #232324;
+}
+
+.listSpan {
+    font-size: 12pt;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    color: #cdcdcd;
+}

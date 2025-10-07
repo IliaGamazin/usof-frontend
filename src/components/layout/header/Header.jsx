@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import Button from "../../common/Button.jsx";
+import Button from "../../common/button/Button.jsx";
 import styles from "./Header.module.css";
 
 import searchIcon from '../../../assets/Magnifying_glass_icon.svg';
@@ -35,7 +35,7 @@ export default function Header() {
     }, [isSearchOpen]);
 
     return (
-        <>
+        <div className={styles.container}>
             {isSearchOpen && (
                 <div
                     className={styles.filter}
@@ -76,7 +76,7 @@ export default function Header() {
                             </Button>
                             <Button className={styles.writeButton}>
                                 <img className={styles.icon} src={pencilIcon} alt="pencil_icon.svg"/>
-                                <span>Write a post</span>
+                                <span>Write</span>
                             </Button>
                             <Button className={styles.authButton}>
                                 Log in
@@ -85,6 +85,6 @@ export default function Header() {
                     </li>
                 </ul>
             </header>
-        </>
+        </div>
     );
 }

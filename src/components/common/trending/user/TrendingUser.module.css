@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.userContainer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pfpButton {
+    transition: filter 0.1s ease;
+    background: none;
+}
+
+.pfpButton:hover {
+    filter: brightness(0.85);
+}
+
+.pfpButton img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.container h4, .infoBlock p {
+    font-family: 'Lato', sans-serif;
+}
+
+.infoBlock {
+    max-width: 200px;
+}
+
+.infoBlock h4, .container h4 {
+    color: #c6c9cc;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.infoBlock p {
+    color: #858a8b;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

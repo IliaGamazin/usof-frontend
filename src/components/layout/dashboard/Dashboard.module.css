@@ -2,9 +2,55 @@
     background-color: #161617;
     display: flex;
     flex-direction: column;
-    min-width: 640px;
+    min-width: 768px;
+}
+
+.dashboardContent {
+    padding: 60px 10px;
+    display: flex;
+    flex-direction: row;
+    margin: 30px auto;
+    gap: 40px;
+    justify-content: space-between;
+    max-width: 1280px;
 }
 
 .content {
-    height: 1080px;
+    min-width: 660px;
+    height: 2080px;
+    background-color: #8F9598;
+}
+
+.menuSidebar {
+    min-width: 200px;
+    background-color: #8F9598;
+}
+
+.feedSidebar {
+    min-width: 320px;
+}
+
+@media screen and (max-width: 1279px) {
+    .dashboardContent {
+        max-width: 1024px;
+    }
+
+    .content {
+        min-width: 748px;
+    }
+
+    .feedSidebar {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .dashboardContent {
+        max-width: 768px;
+        margin: 0 auto;
+    }
+
+    .menuSidebar {
+        display: none;
+    }
 }

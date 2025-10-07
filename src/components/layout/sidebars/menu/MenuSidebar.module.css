@@ -1,0 +1,13 @@
+.icon {
+    height: 1rem;
+}
+
+.menuButton {
+    border-radius: 10px;
+    background: none;
+}
+
+.menuButton span{
+    color: #8F9598;
+    font-size: 16pt;
+}

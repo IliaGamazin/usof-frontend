@@ -2,14 +2,20 @@ import Header from "../header/Header.jsx";
 import Footer from "../footer/Footer.jsx";
 
 import styles from "./Dashboard.module.css";
+import MenuSidebar from "../sidebars/menu/MenuSidebar.jsx";
+import FeedSidebar from "../sidebars/feed/FeedSidebar.jsx";
 
 export default function Dashboard() {
     return (
         <div className={styles.dashboard}>
             <Header />
-            <main className={styles.content}>
+            <div className={styles.dashboardContent}>
+                <MenuSidebar className={styles.menuSidebar}/>
+                <main className={styles.content}>
 
-            </main>
+                </main>
+                <FeedSidebar className={styles.feedSidebar}/>
+            </div>
             <Footer />
         </div>
     );
