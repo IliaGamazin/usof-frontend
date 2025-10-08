@@ -1,13 +1,13 @@
 import styles from "./TrendingUser.module.css"
 import Button from "../../button/Button.jsx";
 
-export default function TrendingUser({place, username, pfp, rating, posts}) {
+export default function TrendingUser({place, id, username, pfpUrl, rating, posts}) {
     return (
         <div className={styles.container}>
             <h4>{place}</h4>
             <div className={styles.userContainer}>
                 <Button className={styles.pfpButton}>
-                    <img src={pfp} alt=""/>
+                    <img src={pfpUrl} alt=""/>
                 </Button>
                 <div className={styles.infoBlock}>
                     <h4>{username}</h4>

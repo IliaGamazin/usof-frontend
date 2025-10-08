@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.list {
+    list-style: none;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.userContainer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.reactButton,
+.pfpButton,
+.commentableLink {
+    transition: filter 0.1s ease;
+    background: none;
+}
+
+.reactButton:hover,
+.pfpButton:hover,
+.commentableLink:hover {
+    filter: brightness(0.85);
+}
+
+.pfpButton img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.infoBlock {
+    max-width: 225px;
+}
+
+.infoBlock h4, .commentableLink {
+    color: #c6c9cc;
+}
+
+.commentParagraph {
+    font-family: 'Lato', sans-serif;
+    color: #c6c9cc;
+}
+
+.commentableLink {
+    text-decoration: none;
+    display: block;
+    max-width: 225px;
+}
+
+.ratingSpan,
+.commentableSpan {
+    color: #858a8b;
+}
+
+.infoBlock h4,
+.commentableLink,
+.ratingSpan,
+.commentableSpan {
+    font-family: 'Lato', sans-serif;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ratingSpan {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.ratingSpan img {
+    height: 20px;
+}

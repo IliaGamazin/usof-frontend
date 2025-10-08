@@ -20,9 +20,20 @@
     background-color: #232324;
 }
 
-.listSpan {
+.listSpan,
+.seeAllLink  {
     font-size: 12pt;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
     color: #cdcdcd;
+}
+
+.seeAllLink {
+    color: #fdb35e;
+    text-decoration: none;
+    transition: filter 0.1s ease;
+}
+
+.seeAllLink:hover {
+    filter: brightness(0.85);
 }
