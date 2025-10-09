@@ -1,13 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 .icon {
-    height: 1rem;
+    height: 1.75rem;
+}
+
+.list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .menuButton {
-    border-radius: 10px;
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 17px;
     background: none;
+    gap: 16px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.menuButton:hover {
+    background-color: #232324;
 }
 
 .menuButton span{
-    color: #8F9598;
+    color: #c3c6c9;
+    font-family: 'Inter', sans-serif;
     font-size: 16pt;
 }

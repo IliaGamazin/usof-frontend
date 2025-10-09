@@ -16,14 +16,19 @@
 }
 
 .content {
+    margin-left: 240px;
     min-width: 660px;
     height: 2080px;
-    background-color: #8F9598;
+    background-color: #232324;
+    border-radius: 15px;
 }
 
 .menuSidebar {
     min-width: 200px;
-    background-color: #8F9598;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .feedSidebar {

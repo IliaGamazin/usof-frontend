@@ -9,3 +9,7 @@ button {
     font-family: inherit;
     cursor: pointer;
 }
+
+body {
+    background-color: #161617;
+}

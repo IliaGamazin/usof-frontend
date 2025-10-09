@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .container {
     width: 100%;
@@ -109,12 +109,12 @@
     height: 2.5rem;
     border-radius: 30px;
     color: #FCFDFF;
-    font-family: Lato, sans-serif;
+    font-family: Inter, sans-serif;
     font-weight: 600;
 }
 
 .authButton {
-    background-color: #af6203;
+    background-color: #fe8725;
     padding: 0.6rem 1rem;
 }
 

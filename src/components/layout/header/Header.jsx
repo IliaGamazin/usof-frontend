@@ -12,6 +12,8 @@ export default function Header() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const searchRef = useRef(null);
     const inputRef = useRef(null);
+    const headerContainerRef = useRef(null);
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -19,23 +21,41 @@ export default function Header() {
             }
         }
 
+        const headerElement = headerContainerRef.current;
+
         if (isSearchOpen) {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+            document.body.style.overflow = "hidden";
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            if (headerElement) {
+                headerElement.style.paddingRight = `${scrollbarWidth}px`;
+            }
+
             document.addEventListener('mousedown', handleClickOutside);
             if (inputRef.current) inputRef.current.focus();
-            document.body.style.overflow = "hidden";
+
         }
         else {
             document.body.style.overflow = "";
+            document.body.style.paddingRight = "";
+            if (headerElement) {
+                headerElement.style.paddingRight = "";
+            }
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = "";
+            document.body.style.paddingRight = "";
+            if (headerElement) {
+                headerElement.style.paddingRight = "";
+            }
         };
     }, [isSearchOpen]);
 
     return (
-        <div className={styles.container}>
+        <div ref={headerContainerRef} className={styles.container}>
             {isSearchOpen && (
                 <div
                     className={styles.filter}
@@ -48,21 +68,21 @@ export default function Header() {
                         <h2 className={styles.title}>Mangoflow</h2>
                         <img className={styles.icon} src={mangoIcon} alt=""/>
                     </li>
-                        <li
-                            ref={searchRef}
-                            className={styles.searchWrapper}
-                        >
-                            {isSearchOpen && (
-                                <search className={styles.searchContainer}>
-                                    <input
-                                        ref={inputRef}
-                                        type="text"
-                                        placeholder="Search..."
-                                        className={styles.searchInput}
-                                    />
-                                </search>
-                            )}
-                        </li>
+                    <li
+                        ref={searchRef}
+                        className={styles.searchWrapper}
+                    >
+                        {isSearchOpen && (
+                            <search className={styles.searchContainer}>
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    placeholder="Search..."
+                                    className={styles.searchInput}
+                                />
+                            </search>
+                        )}
+                    </li>
                     <li className={styles.buttonBlock}>
                         <nav className={styles.buttonBar}>
                             <Button

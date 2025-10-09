@@ -1,3 +1,5 @@
+import { Outlet } from 'react-router-dom';
+
 import Header from "../header/Header.jsx";
 import Footer from "../footer/Footer.jsx";
 
@@ -12,7 +14,7 @@ export default function Dashboard() {
             <div className={styles.dashboardContent}>
                 <MenuSidebar className={styles.menuSidebar}/>
                 <main className={styles.content}>
-
+                    <Outlet />
                 </main>
                 <FeedSidebar className={styles.feedSidebar}/>
             </div>
