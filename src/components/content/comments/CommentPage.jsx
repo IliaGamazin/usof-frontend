@@ -1,11 +1,11 @@
 import React from 'react';
 import {useParams} from "react-router";
 
-export default function CategoryPage() {
+export default function CommentPage() {
     const { id } = useParams();
     return (
         <div>
-            <h1>Category {id}</h1>
+            <h1>Comment {id}</h1>
         </div>
     );
 }

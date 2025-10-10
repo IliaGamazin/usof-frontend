@@ -1,5 +1,6 @@
 import styles from "./Footer.module.css";
 import githubIcon from '/src/assets/Github_icon.svg';
+
 export default function Footer() {
     return (
         <footer className={styles.footer}>

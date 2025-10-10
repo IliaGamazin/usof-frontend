@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-
 import Button from "../../common/button/Button.jsx";
+
 import styles from "./Header.module.css";
 
 import searchIcon from '../../../assets/Magnifying_glass_icon.svg';
 import bellIcon from '../../../assets/Bell_icon.svg';
 import pencilIcon from '../../../assets/Pencil_icon.svg';
 import mangoIcon from '../../../assets/mango.svg';
+import {Link} from "react-router";
 
 export default function Header() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -98,9 +99,11 @@ export default function Header() {
                                 <img className={styles.icon} src={pencilIcon} alt="pencil_icon.svg"/>
                                 <span>Write</span>
                             </Button>
-                            <Button className={styles.authButton}>
-                                Log in
-                            </Button>
+                            <Link to="?modal=auth/login">
+                                <Button className={styles.authButton}>
+                                    Log in
+                                </Button>
+                            </Link>
                         </nav>
                     </li>
                 </ul>

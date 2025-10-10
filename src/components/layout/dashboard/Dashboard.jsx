@@ -1,13 +1,18 @@
-import { Outlet } from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
+import {useSearchParams} from "react-router";
 
 import Header from "../header/Header.jsx";
 import Footer from "../footer/Footer.jsx";
-
-import styles from "./Dashboard.module.css";
 import MenuSidebar from "../sidebars/menu/MenuSidebar.jsx";
 import FeedSidebar from "../sidebars/feed/FeedSidebar.jsx";
+import AuthModal from "../../modals/auth/AuthModal.jsx";
+
+import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const modalType = searchParams.get('modal');
+
     return (
         <div className={styles.dashboard}>
             <Header />
@@ -19,6 +24,9 @@ export default function Dashboard() {
                 <FeedSidebar className={styles.feedSidebar}/>
             </div>
             <Footer />
+
+            {modalType === 'auth/login' && <AuthModal type="login" />}
+            {modalType === 'auth/signup' && <AuthModal type="signup" />}
         </div>
     );
 }

@@ -4,11 +4,40 @@
     height: 1.75rem;
 }
 
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
 .list {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.activeLink .menuButton {
+    background-color: rgba(255, 145, 0, 0.7);
+}
+
+.activeLink .menuButton span{
+    color: white;
+}
+
+.inActiveLink .menuButton:hover  {
+    background-color: #232324;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.list h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 12pt;
+    padding: 8px;
+    color: #848987;
 }
 
 .menuButton {
@@ -19,11 +48,6 @@
     border-radius: 17px;
     background: none;
     gap: 16px;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.menuButton:hover {
-    background-color: #232324;
 }
 
 .menuButton span{

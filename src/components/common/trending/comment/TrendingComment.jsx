@@ -1,8 +1,10 @@
-import styles from "./TrendingComment.module.css"
 import Button from "../../button/Button.jsx";
+
+import styles from "./TrendingComment.module.css"
 
 import likeIcon from '/src/assets/Like_icon.svg'
 import dislikeIcon from '/src/assets/Dislike_icon.svg'
+import {Link} from "react-router";
 
 export default function TrendingComment(
     {   userId, username, pfpUrl,
@@ -13,9 +15,14 @@ export default function TrendingComment(
             <ul className={styles.list}>
                 <li>
                     <div className={styles.userContainer}>
-                        <Button className={styles.pfpButton}>
-                            <img src={pfpUrl} alt="pfp"/>
-                        </Button>
+                        <Link to={"/users/" + userId}>
+                            <Button
+                                onClick={() => window.scrollTo(0, 0)}
+                                className={styles.pfpButton}
+                            >
+                                <img src={pfpUrl} alt="pfp"/>
+                            </Button>
+                        </Link>
                         <div>
                             <div className={styles.infoBlock}>
                                 <h4>{username}</h4>
@@ -23,7 +30,7 @@ export default function TrendingComment(
                                     under {commentableType === "COMMENT" ? "comment" : "post"}:
                                 </h5>
                             </div>
-                            <a className={styles.commentableLink} href={"#"}>{commentable}</a>
+                            <a className={styles.commentableLink} href={ `/${commentableType === "COMMENT" ? "comments" : "posts"}/` + commentableId }>{commentable}</a>
                         </div>
                     </div>
                 </li>

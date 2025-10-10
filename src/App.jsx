@@ -6,6 +6,10 @@ import PostsPage from "./components/content/posts/PostsPage.jsx";
 import CategoriesPage from "./components/content/categories/CategoriesPage.jsx";
 import UsersPage from "./components/content/users/UsersPage.jsx";
 import CategoryPage from "./components/content/categories/CategoryPage.jsx";
+import UserPage from "./components/content/users/UserPage.jsx";
+import PostPage from "./components/content/posts/PostPage.jsx";
+import CommentsPage from "./components/content/comments/CommentsPage.jsx";
+import CommentPage from "./components/content/comments/CommentPage.jsx";
 
 function App() {
     const [users, setUser] = useState(null);
@@ -13,10 +17,25 @@ function App() {
         <Routes>
             <Route path="/" element={<Dashboard />}>
                 <Route index element={<PostsPage />} />
-                <Route path="categories" element={<CategoriesPage />}>
-                    <Route path={":id"} element={<CategoryPage />}/>
-                </Route>
+
+                <Route path="categories" element={<CategoriesPage />} />
+                <Route path={"categories/:id"} element={<CategoryPage />} />
+
                 <Route path="users" element={<UsersPage />} />
+                <Route path={"users/:id"} element={<UserPage />}/>
+
+                <Route path="posts" element={<PostsPage />} />
+
+                <Route path="posts/trending" element={<PostsPage />} />
+                <Route path="posts/recent" element={<PostsPage />} />
+                <Route path="posts/favourite" element={<PostsPage />} />
+                <Route path="posts/followed" element={<PostsPage />} />
+                <Route path="posts/my" element={<PostsPage />} />
+
+                <Route path={"posts/:id"} element={<PostPage />}/>
+
+                <Route path="comments" element={<CommentsPage />} />
+                <Route path={"comments/:id"} element={<CommentPage />}/>
             </Route>
         </Routes>
     )
