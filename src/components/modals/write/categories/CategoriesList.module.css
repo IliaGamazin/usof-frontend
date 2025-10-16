@@ -1,0 +1,44 @@
+.previewLabel {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.removeButton {
+    padding: 4px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.categoryItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.categoryItem:hover .removeButton {
+    opacity: 1;
+}
+
+.categoriesSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.categoriesGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.removeButton:hover {
+    background-color: #dc2626;
+}
