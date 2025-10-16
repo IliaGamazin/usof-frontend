@@ -6,6 +6,7 @@ import Footer from "../footer/Footer.jsx";
 import MenuSidebar from "../sidebars/menu/MenuSidebar.jsx";
 import FeedSidebar from "../sidebars/feed/FeedSidebar.jsx";
 import AuthModal from "../../modals/auth/AuthModal.jsx";
+import WriteModal from "../../modals/write/WriteModal.jsx";
 
 import styles from "./Dashboard.module.css";
 
@@ -27,6 +28,7 @@ export default function Dashboard() {
 
             {modalType === 'auth/login' && <AuthModal type="login" />}
             {modalType === 'auth/signup' && <AuthModal type="signup" />}
+            {modalType === 'write' && <WriteModal/>}
         </div>
     );
 }

@@ -4,10 +4,13 @@ import Button from "../button/Button.jsx";
 
 import styles from "./Modal.module.css"
 
-export default function Modal({ onClose, children }) {
+export default function Modal({ onClose, children, contentClassName }) {
     return createPortal(
         <div className={styles.overlay} onClick={onClose}>
-            <div className={styles.content} onClick={(e) => e.stopPropagation()}>
+            <div
+                className={`${styles.content} ${contentClassName || ''}`}
+                onClick={(e) => e.stopPropagation()}
+            >
                 <Button
                     className={styles.closeButton}
                     onClick={onClose}

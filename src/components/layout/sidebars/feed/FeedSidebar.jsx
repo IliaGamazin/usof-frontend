@@ -1,5 +1,3 @@
-import { useState, useRef, useEffect } from 'react';
-
 import TrendingUser from "../../../common/trending/user/TrendingUser.jsx";
 import TrendingComment from "../../../common/trending/comment/TrendingComment.jsx";
 

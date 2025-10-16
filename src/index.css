@@ -13,3 +13,7 @@ button {
 body {
     background-color: #161617;
 }
+
+a {
+    text-decoration: none;
+}

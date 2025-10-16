@@ -95,10 +95,12 @@ export default function Header() {
                             <Button className={styles.svgButton}>
                                 <img className={styles.icon} src={bellIcon} alt="bell_icon.svg"/>
                             </Button>
-                            <Button className={styles.writeButton}>
-                                <img className={styles.icon} src={pencilIcon} alt="pencil_icon.svg"/>
-                                <span>Write</span>
-                            </Button>
+                            <Link to="?modal=write">
+                                <Button className={styles.writeButton}>
+                                    <img className={styles.icon} src={pencilIcon} alt="pencil_icon.svg"/>
+                                    <span>Write</span>
+                                </Button>
+                            </Link>
                             <Link to="?modal=auth/login">
                                 <Button className={styles.authButton}>
                                     Log in

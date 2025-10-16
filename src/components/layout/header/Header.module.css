@@ -115,7 +115,7 @@
 }
 
 .authButton {
-    background-color: #fe8725;
+    background-color: rgba(255, 145, 0, 0.7);
     padding: 0.6rem 1rem;
 }
 
@@ -136,7 +136,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #fe8725;
+    background-color: rgba(255, 145, 0, 0.7);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
