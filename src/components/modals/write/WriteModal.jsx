@@ -5,8 +5,8 @@ import Modal from '../../common/Modal/Modal.jsx';
 import Button from "../../common/button/Button.jsx";
 
 import styles from "./WriteModal.module.css";
-import FileUpload from "./upload/FileUpload.jsx";
-import CategoriesList from "./categories/CategoriesList.jsx";
+import FileUpload from "../../common/upload/FileUpload.jsx";
+import CategoriesList from "../../common/categories/CategoriesList.jsx";
 
 export default function WriteModal() {
     const [, setSearchParams] = useSearchParams();
@@ -21,7 +21,7 @@ export default function WriteModal() {
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
     const [previewUrls, setPreviewUrls] = useState([]);
-    const [categories, setCategories] = useState(["cat1", "cat2"]);
+    const [categories, setCategories] = useState(["C#", "Java", "Advanced Python Django framework", "Swine", "Intermediate racism",]);
 
     useEffect(() => {
         if (images.length === 0) {
@@ -63,7 +63,7 @@ export default function WriteModal() {
                     type="submit"
                     className={styles.submitButton}
                 >
-                    Create post
+                    Create Post
                 </Button>
             </form>
         </Modal>

@@ -5,6 +5,7 @@ import Modal from '../../common/Modal/Modal.jsx';
 
 import styles from "./AuthModal.module.css";
 import mangoIcon from "../../../assets/mango.svg";
+import Button from "../../common/button/Button.jsx";
 
 const LoginForm = () => {
     return (
@@ -26,10 +27,15 @@ const LoginForm = () => {
                     <input type="password" id="password" placeholder="Password" />
                 </li>
                 <li>
-                    <button type="submit">Log In</button>
+                    <Button
+                        type="submit"
+                        className={styles.submitButton}
+                    >Log In</Button>
                 </li>
             </ul>
-            <Link to="?modal=auth/signup">Wanna sign up instead?</Link>
+            <label>
+                Wanna <Link to="?modal=auth/signup">sign up</Link> instead?
+            </label>
         </form>
     );
 }
@@ -61,16 +67,18 @@ const SignupForm = () => {
                     <input type="password" id="confirm-password" placeholder="Confirm password" />
                 </li>
                 <li>
-                    <button type="submit">Create Account</button>
+                    <Button
+                        className={styles.submitButton}
+                        type="submit"
+                    >Create Account</Button>
                 </li>
             </ul>
-
-            <Link to="?modal=auth/login">Wanna sign in instead?</Link>
+            <label>
+                Wanna <Link to="?modal=auth/login">log in</Link> instead?
+            </label>
         </form>
     );
 }
-
-
 
 export default function AuthModal({ type }) {
     const [, setSearchParams] = useSearchParams();
