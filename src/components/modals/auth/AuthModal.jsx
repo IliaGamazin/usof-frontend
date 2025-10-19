@@ -1,30 +1,95 @@
 import {useSearchParams} from 'react-router-dom';
-import {Link} from "react-router";
+import {useState} from "react";
+import {Link, useNavigate} from "react-router";
 
 import Modal from '../../common/Modal/Modal.jsx';
-
-import styles from "./AuthModal.module.css";
-import mangoIcon from "../../../assets/mango.svg";
 import Button from "../../common/button/Button.jsx";
 
+import mangoIcon from "../../../assets/mango.svg";
+import styles from "./AuthModal.module.css";
+
+import {login, signup} from "../../../services/AuthService.js";
+import {useAuth} from "../../../context/AuthContext.jsx";
+
 const LoginForm = () => {
+    const navigate = useNavigate();
+    const { setAccessToken } = useAuth();
+    const [formData, setFormData] = useState({
+        login: '',
+        email: '',
+        password: '',
+    });
+
+    const [error, setError] = useState(null);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+        try {
+            const result = await login(formData);
+            console.log(result.access_token);
+            setAccessToken(result.access_token);
+            console.log('Signup successful!', result);
+            navigate("/");
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    };
+
     return (
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.titleBlock}>
                 <h2 className={styles.title}>Mangoflow</h2>
                 <img className={styles.icon} src={mangoIcon} alt=""/>
             </div>
             <h2 className={styles.subtitle}>Welcome back!</h2>
 
+            {error &&  (
+                <h1>{error}</h1>
+            )}
+
             <ul className={styles.list}>
                 <li>
-                    <input type="text" id="login" placeholder="Login" />
+                    <input
+                        type="text"
+                        id="login"
+                        name="login"
+                        value={formData.login}
+                        onChange={handleChange}
+                        placeholder="Login"
+                        required
+                    />
                 </li>
                 <li>
-                    <input type="email" id="email" placeholder="Email" />
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        required
+                    />
                 </li>
                 <li>
-                    <input type="password" id="password" placeholder="Password" />
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                    />
                 </li>
                 <li>
                     <Button
@@ -41,30 +106,123 @@ const LoginForm = () => {
 }
 
 const SignupForm = () => {
+    const navigate = useNavigate();
+    const { setAccessToken } = useAuth();
+    const [formData, setFormData] = useState({
+        login: '',
+        email: '',
+        firstname: '',
+        lastname: '',
+        password: '',
+        password_confirmation: ''
+    });
+
+    const [error, setError] = useState(null);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+        if (formData.password !== formData.password_confirmation) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        try {
+            const result = await signup(formData);
+            console.log(result.access_token);
+            setAccessToken(result.access_token);
+            console.log('Login successful!', result);
+            navigate("/");
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    };
+
     return (
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.titleBlock}>
                 <h2 className={styles.title}>Mangoflow</h2>
                 <img className={styles.icon} src={mangoIcon} alt=""/>
             </div>
             <h2 className={styles.subtitle}>Join today!</h2>
 
+            {error &&  (
+                <h1>{error}</h1>
+            )}
+
             <ul className={styles.list}>
                 <li>
-                    <input type="text" id="login" placeholder="Login" />
+                    <input
+                        type="text"
+                        id="login"
+                        name="login"
+                        value={formData.login}
+                        onChange={handleChange}
+                        placeholder="Login"
+                        required
+                    />
                 </li>
                 <li>
-                    <input type="email" id="email" placeholder="Email" />
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        required
+                    />
                 </li>
                 <li className={styles.nameBlock}>
-                    <input type="text" id="first-name" placeholder="Firstname" />
-                    <input type="text" id="last-name" placeholder="Lastname" />
+                    <input
+                        type="text"
+                        id="firstname"
+                        name="firstname"
+                        value={formData.firstname}
+                        onChange={handleChange}
+                        placeholder="Firstname"
+                        required
+                    />
+                    <input
+                        type="text"
+                        id="lastname"
+                        name="lastname"
+                        value={formData.lastname}
+                        onChange={handleChange}
+                        placeholder="Lastname"
+                        required
+                    />
                 </li>
                 <li>
-                    <input type="password" id="password" placeholder="Password" />
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                    />
                 </li>
                 <li>
-                    <input type="password" id="confirm-password" placeholder="Confirm password" />
+                    <input
+                        type="password"
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        value={formData.password_confirmation}
+                        onChange={handleChange}
+                        placeholder="Confirm password"
+                        required
+                    />
                 </li>
                 <li>
                     <Button

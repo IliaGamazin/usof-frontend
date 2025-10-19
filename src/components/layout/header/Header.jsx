@@ -8,12 +8,15 @@ import bellIcon from '../../../assets/Bell_icon.svg';
 import pencilIcon from '../../../assets/Pencil_icon.svg';
 import mangoIcon from '../../../assets/mango.svg';
 import {Link} from "react-router";
+import {useAuth} from "../../../context/AuthContext.jsx";
 
 export default function Header() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const searchRef = useRef(null);
     const inputRef = useRef(null);
     const headerContainerRef = useRef(null);
+
+    const {isAuthenticated} = useAuth();
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -101,11 +104,17 @@ export default function Header() {
                                     <span>Write</span>
                                 </Button>
                             </Link>
-                            <Link to="?modal=auth/login">
-                                <Button className={styles.authButton}>
-                                    Log in
-                                </Button>
-                            </Link>
+                            {isAuthenticated ?
+                                <h1>
+                                1111
+                                </h1>
+                                :
+                                <Link to="?modal=auth/login">
+                                    <Button className={styles.authButton}>
+                                        Log in
+                                    </Button>
+                                </Link>
+                            }
                         </nav>
                     </li>
                 </ul>
