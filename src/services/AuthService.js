@@ -1,8 +1,8 @@
 export const signup = async (data) => {
     console.log(data);
-    const URL = "http://localhost:8080/api/auth/register";
+    const URL = 'http://localhost:8080/api/auth/register';
     const response = await fetch(URL, {
-        method: "POST",
+        method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
@@ -21,9 +21,9 @@ export const signup = async (data) => {
 
 export const login = async (data) => {
     console.log(data);
-    const URL = "http://localhost:8080/api/auth/login";
+    const URL = 'http://localhost:8080/api/auth/login';
     const response = await fetch(URL, {
-        method: "POST",
+        method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',

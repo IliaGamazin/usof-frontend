@@ -1,0 +1,49 @@
+.categoryCard {
+    background-color: #2a2a2c;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    max-width: 300px;
+}
+
+.categoryCard:hover {
+    background-color: #565657;
+    border-color: #ea8908;
+}
+
+.categoryInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.description {
+    color: #c6c9cc;
+    font-size: 0.9rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 1279px) {
+    .categoryCard {
+        max-width: 360px;
+    }
+}

@@ -30,6 +30,10 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!accessToken,
     };
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <AuthContext.Provider value={value}>
             {children}

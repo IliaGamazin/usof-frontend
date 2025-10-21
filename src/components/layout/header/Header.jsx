@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Button from "../../common/button/Button.jsx";
+import ProfileButton from "../../common/profile/ProfileButton.jsx";
 
 import styles from "./Header.module.css";
 
@@ -105,9 +106,7 @@ export default function Header() {
                                 </Button>
                             </Link>
                             {isAuthenticated ?
-                                <h1>
-                                1111
-                                </h1>
+                                <ProfileButton/>
                                 :
                                 <Link to="?modal=auth/login">
                                     <Button className={styles.authButton}>

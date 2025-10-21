@@ -1,0 +1,53 @@
+export const getUser = async (id) => {
+    const URL = `http://localhost:8080/api/users/${id}`;
+    const response = await fetch(URL, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Failed to get user');
+    }
+
+    return await response.json();
+}
+
+export const getUsers = async (page, limit, order_by, order_dir) => {
+    const params = new URLSearchParams();
+
+    if (page) params.append('page', page);
+    if (limit) params.append('limit', limit);
+    if (order_by) params.append('order_by', order_by);
+    if (order_dir) params.append('order_dir', order_dir);
+
+    const queryString = params.toString();
+    const URL = `http://localhost:8080/api/users${queryString ? `?${queryString}` : ''}`;
+
+    const response = await fetch(URL, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Failed to get users');
+    }
+
+    return await response.json();
+}
+
+export const getMe = async (authFetch) => {
+    const URL = `http://localhost:8080/api/users/me`;
+
+    const response = await authFetch(URL, { method: 'GET' });
+
+    if (!response.ok) {
+        const res = await response.json();
+        throw new Error(res.error?.message || 'Failed to get me');
+    }
+
+    return await response.json();
+}

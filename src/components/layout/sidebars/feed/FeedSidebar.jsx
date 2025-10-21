@@ -65,9 +65,6 @@ export default function FeedSidebar({className}) {
                     />
                     <a className={styles.seeAllLink} href="/users">See all</a>
                 </li>
-                <li className={styles.listElement}>
-                    <span className={styles.listSpan}>Idk</span>
-                </li>
             </ul>
             <ul>
 

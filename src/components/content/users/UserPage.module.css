@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.container {
+    background-color: #232324;
+    border-radius: 15px;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.container img{
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.credentials p {
+    margin-top: 10px;
+    color: #808080;
+}
+
+.profileContent {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nameBlock {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.nickname {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.role {
+    color: #ea8908;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.fullNameLabel {
+    color: #808080;
+    font-size: 1.1rem;
+    margin: 8px 0 0;
+}
+
+.name {
+    color: #c6c9cc;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.statsBlock {
+    border-top: 1px solid #444;
+    padding-top: 16px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.statsBlock p {
+    margin: 0;
+    color: #c6c9cc;
+}
+
+.ratingValue {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.joinDate {
+    font-size: 1rem;
+    color: #808080;
+}
+

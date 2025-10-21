@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    max-width: 100px;
+}
+
+.container img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    align-self: center;
+    display: flex;
+}
+
+.container a {
+    transition: filter 0.1s ease;
+    display: flex;
+    align-items: center;
+}
+
+.container a:hover {
+    filter: brightness(0.85);
+}

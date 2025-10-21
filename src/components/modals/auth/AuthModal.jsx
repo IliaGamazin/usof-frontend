@@ -228,7 +228,9 @@ const SignupForm = () => {
                     <Button
                         className={styles.submitButton}
                         type="submit"
-                    >Create Account</Button>
+                    >
+                        Create Account
+                    </Button>
                 </li>
             </ul>
             <label>
