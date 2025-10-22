@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router";
 import {getUsers} from "../../../services/UserService.js";
 import Pagination from "../../common/pagination/Pagination.jsx";
 import UserPreview from "../../common/previews/user/UserPreview.jsx";
@@ -41,11 +40,13 @@ export default function UsersPage() {
     if (loading) return <div>Loading users...</div>;
     if (!users) return <div>No users found</div>;
 
+    window.scrollTo(0, 0);
+
     return (
         <div className={styles.container}>
             <div>
                 <h1>All Users</h1>
-                {users && users.length > 0 && (
+                {users?.length > 0 && (
                     <div className={styles.userGrid}>
                         {users.map((user) => (
                             <UserPreview
@@ -59,7 +60,7 @@ export default function UsersPage() {
                     </div>
                 )}
             </div>
-            {pagination.total_pages > 1 && (
+            {pagination?.total_pages > 1 && (
                 <Pagination
                     totalPages={pagination.total_pages}
                     currentPage={page}

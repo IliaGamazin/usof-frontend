@@ -1,4 +1,4 @@
-export const getCategories= async (page, limit, order_by, order_dir) => {
+export const getCategories = async (page, limit, order_by, order_dir) => {
     const params = new URLSearchParams();
 
     if (page) params.append('page', page);
@@ -18,6 +18,22 @@ export const getCategories= async (page, limit, order_by, order_dir) => {
         const res = await response.json();
         console.log(res.error);
         throw new Error(res.error.message || 'Failed to get categories');
+    }
+
+    return await response.json();
+}
+
+export const getCategory = async (id) => {
+    const URL = `http://localhost:8080/api/categories/${id}`;
+    const response = await fetch(URL, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Failed to get category');
     }
 
     return await response.json();

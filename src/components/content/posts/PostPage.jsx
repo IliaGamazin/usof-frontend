@@ -29,9 +29,6 @@ export default function PostPage() {
                 }
             }
             const authorData = await getUser(postData.post.author_id);
-            console.log(authorData);
-            console.log(postData.images);
-            console.log(postData.post);
             setPost(postData.post);
             setAuthor(authorData);
             setImages(postData.images);
@@ -62,6 +59,8 @@ export default function PostPage() {
         day: 'numeric',
     });
 
+    window.scrollTo(0, 0);
+
     return (
         <article className={styles.postContainer}>
             <header className={styles.postHeader}>
@@ -75,7 +74,7 @@ export default function PostPage() {
             <div className={styles.postBody}>
                 <p className={styles.postContent}>{post.content}</p>
 
-                {images && images.length > 0 && (
+                {images?.length > 0 && (
                     <div className={styles.gallerySection}>
                         <h2 className={styles.galleryTitle}>Attached Images</h2>
                         <div className={styles.imageGrid}>

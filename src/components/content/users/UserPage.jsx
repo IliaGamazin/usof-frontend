@@ -2,11 +2,14 @@ import React from 'react';
 import {useParams} from "react-router";
 import { useState, useEffect } from 'react';
 import {getMe, getUser} from "../../../services/UserService.js";
+import {getUserPosts} from "../../../services/PostService.js";
 import {useNavigate} from "react-router";
 
 import styles from "./UserPage.module.css";
 import {useAuthFetch} from "../../../services/Api.js";
 import {useAuth} from "../../../context/AuthContext.jsx";
+import PostPreview from "../../common/previews/post/PostPreview.jsx";
+import Pagination from "../../common/pagination/Pagination.jsx";
 
 export default function UserPage() {
     const { id } = useParams();
@@ -17,72 +20,116 @@ export default function UserPage() {
     const authFetch = useAuthFetch();
     const { isAuthenticated} = useAuth();
 
-    const fetchUserData = async (id) => {
-        try {
-            setLoading(true);
-            const userData = await getUser(id);
-            if (isAuthenticated) {
-                const myData = await getMe(authFetch);
-                if (userData.id === myData.id) {
-                    setIsMe(true);
-                }
-                console.log(myData);
-            }
-            setUser(userData);
-        }
-        catch (err) {
-            console.log(err);
-            navigate("/*")
-        }
-        finally {
-            setLoading(false);
-        }
-    };
+    const [posts, setPosts] = useState([]);
+    const [pagination, setPagination] = useState(null);
+
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [orderBy, setOrderBy] = useState("score");
+    const [orderDir, setOrderDir] = useState("DESC");
 
     useEffect(() => {
+        const fetchUserData = async (id) => {
+            try {
+                setLoading(true);
+                const userData = await getUser(id);
+                setUser(userData);
+                if (isAuthenticated) {
+                    const myData = await getMe(authFetch);
+                    if (userData.id === myData.id) {
+                        setIsMe(true);
+                    }
+                }
+                const postData = await getUserPosts(id, page, limit, orderBy, orderDir);
+                setPosts(postData.data);
+                setPagination(postData.pagination);
+            }
+            catch (err) {
+                console.log(err);
+                if(!user) {
+                    navigate("/*")
+                }
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+
         if (id) {
-            fetchUserData(id);
+            fetchUserData(id)
+                .catch((err) => console.log(err))
+                .finally(() => setLoading(false));
         }
-        else {
-            setLoading(false);
-        }
+
     }, [id]);
 
     if (loading) return <div>Loading user...</div>;
     if (!user) return <div>No user found</div>;
+
+    window.scrollTo(0, 0);
+
     return (
-        <div className={styles.container}>
-            <div className={styles.profileContent}>
-                <img
-                    src={user.pfp ? `http://localhost:8080${user.pfp}` : "/src/assets/Mr_avatarko.png"}
-                    alt="Profile picture"
-                />
-                <div className={styles.credentials}>
-                    <div className={styles.nameBlock}>
-                        <h3 className={styles.nickname}>{user.login}</h3>
-                        <span className={styles.role}>[{user.role}]</span>
+        <>
+            <div className={styles.container}>
+                <div className={styles.profileContent}>
+                    <img
+                        src={user.pfp ? `http://localhost:8080${user.pfp}` : "/src/assets/Mr_avatarko.png"}
+                        alt="Profile picture"
+                    />
+                    <div className={styles.credentials}>
+                        <div className={styles.nameBlock}>
+                            <h3 className={styles.nickname}>{user.login}</h3>
+                            <span className={styles.role}>[{user.role}]</span>
+                        </div>
+
+                        <p className={styles.fullNameLabel}>Full name:</p>
+                        <h4 className={styles.name}>
+                            {user.firstname} {user.lastname}
+                        </h4>
                     </div>
-
-                    <p className={styles.fullNameLabel}>Full name:</p>
-                    <h4 className={styles.name}>
-                        {user.firstname} {user.lastname}
-                    </h4>
                 </div>
-            </div>
 
-            <div className={styles.statsBlock}>
-                <p>
-                    Rating: <span className={styles.ratingValue}>{user.rating}</span>
-                </p>
-                <p className={styles.joinDate}>
-                    Joined {new Date(user.created_at).toLocaleDateString()}
-                </p>
-            </div>
-            {isMe && (
-                <div className={styles.personalBlock}>
-                    <h1>me</h1>
+                <div className={styles.statsBlock}>
+                    <p>
+                        Rating: <span className={styles.ratingValue}>{user.rating}</span>
+                    </p>
+                    <p className={styles.joinDate}>
+                        Joined {new Date(user.created_at).toLocaleDateString()}
+                    </p>
                 </div>
+                {isMe && (
+                    <div className={styles.personalBlock}>
+                        <h1>me</h1>
+                    </div>
+                )}
+            </div>
+            <div>
+                <h1>All posts</h1>
+                {posts?.length > 0 && (
+                    <div>
+                        {posts.map(post => (
+                            <PostPreview
+                                key={post.id}
+                                author_id={post.author_id}
+                                id={post.id}
+                                title={post.title}
+                                content={post.content}
+                                score={post.score}
+                                createdAt={post.created_at}
+                                categories={post.categories}
+                                withLink={false}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+            {pagination?.total_pages > 1 && (
+                <Pagination
+                    totalPages={pagination.total_pages}
+                    currentPage={page}
+                    setPage={setPage}
+                />
             )}
-        </div>
+        </>
     );
 }

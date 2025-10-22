@@ -8,19 +8,13 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const initialized = useRef(false);
     useEffect(() => {
-        const initAuth = async () => {
-            if (initialized.current) return;
-            initialized.current = true;
-            try {
-                const token = await refresh();
-                setAccessToken(token);
-            }
-            catch (error) {
-                console.error('Failed to refresh token on mount:', error);
-            }
-        };
-
-        initAuth().finally(() => setIsLoading(false));
+        if (initialized.current) return;
+        initialized.current = true;
+        console.log("refreshing on mount");
+        refresh()
+            .then((token) => setAccessToken(token))
+            .catch((error) => console.error(error))
+            .finally(() => setIsLoading(false));
     }, []);
 
     const value = {

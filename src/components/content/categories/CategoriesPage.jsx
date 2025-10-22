@@ -20,7 +20,6 @@ export default function CategoriesPage() {
             const categoriesData = await getCategories(
                 page, limit, orderBy, orderDir
             );
-            console.log(categoriesData)
             setCategories(categoriesData.data);
             setPagination(categoriesData.pagination);
         }
@@ -40,11 +39,13 @@ export default function CategoriesPage() {
     if (loading) return <div>Loading categories...</div>;
     if (!categories) return <div>No users found</div>;
 
+    window.scrollTo(0, 0);
+
     return (
         <div className={styles.container}>
             <div>
                 <h1>All Categories</h1>
-                {categories && categories.length > 0 && (
+                {categories?.length > 0 && (
                     <div className={styles.userGrid}>
                         {categories.map((category) => (
                             <CategoryPreview
@@ -57,7 +58,7 @@ export default function CategoriesPage() {
                     </div>
                 )}
             </div>
-            {pagination && pagination.total_pages && pagination.total_pages > 1 && (
+            {pagination?.total_pages > 1 && (
                 <Pagination
                     totalPages={pagination.total_pages}
                     currentPage={page}

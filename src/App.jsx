@@ -11,12 +11,13 @@ import PostPage from "./components/content/posts/PostPage.jsx";
 import CommentsPage from "./components/content/comments/CommentsPage.jsx";
 import CommentPage from "./components/content/comments/CommentPage.jsx";
 import NotFound from "./components/content/notfound/NotFound.jsx";
+import {Navigate} from "react-router";
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<Dashboard />}>
-                <Route index element={<PostsPage />} />
+                <Route index element={<Navigate to="/posts/recent" replace />} />
 
                 <Route path="categories" element={<CategoriesPage />} />
                 <Route path={"categories/:id"} element={<CategoryPage />} />

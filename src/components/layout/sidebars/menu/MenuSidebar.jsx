@@ -28,24 +28,24 @@ export default function MenuSidebar({className}) {
                     <li>
                         <NavLink
                             className={getLinkClass}
-                            to="/posts/trending"
-                            end
-                        >
-                            <Button className={styles.menuButton}>
-                                <img className={styles.icon} src={trendingIcon} alt="Trending_icon.svg"/>
-                                <span>Trending</span>
-                            </Button>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className={getLinkClass}
                             to="/posts/recent"
                             end
                         >
                             <Button className={styles.menuButton}>
                                 <img className={styles.icon} src={recentIcon} alt="Recent_icon.svg"/>
                                 <span>Recent</span>
+                            </Button>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            className={getLinkClass}
+                            to="/posts/trending"
+                            end
+                        >
+                            <Button className={styles.menuButton}>
+                                <img className={styles.icon} src={trendingIcon} alt="Trending_icon.svg"/>
+                                <span>Trending</span>
                             </Button>
                         </NavLink>
                     </li>

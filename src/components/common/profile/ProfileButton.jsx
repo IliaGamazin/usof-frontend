@@ -22,14 +22,15 @@ export default function ProfileButton() {
             }
             catch (err) {
                 console.error('Failed to fetch user:', err);
-                navigate("/*");
             }
             finally {
                 setLoading(false);
             }
         };
 
-        fetchMyData();
+        fetchMyData()
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
     }, []);
 
     if (loading) {
