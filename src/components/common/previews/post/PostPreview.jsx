@@ -76,7 +76,7 @@ export default function PostPreview({ author_id, id, title, content, score, crea
                 )}
 
                 <div className={styles.postMeta}>
-                    <span className={styles.score}>Score: {score}</span>
+                    <span className={styles.score}>Score: {score ? score : 0}</span>
                     <span className={styles.date}>
                         {new Date(createdAt).toLocaleDateString()}
                     </span>

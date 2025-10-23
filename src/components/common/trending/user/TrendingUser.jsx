@@ -3,7 +3,7 @@ import Button from "../../button/Button.jsx";
 import styles from "./TrendingUser.module.css"
 import {Link} from "react-router";
 
-export default function TrendingUser({place, id, username, pfpUrl, rating, posts}) {
+export default function TrendingUser({place, id, username, pfpUrl, rating}) {
     return (
         <div className={styles.container}>
             <h4>{place}</h4>
@@ -13,12 +13,15 @@ export default function TrendingUser({place, id, username, pfpUrl, rating, posts
                         onClick={() => window.scrollTo(0, 0)}
                         className={styles.pfpButton}
                     >
-                        <img src={pfpUrl} alt=""/>
+                        <img
+                            src={pfpUrl ? `http://localhost:8080${pfpUrl}` : "/src/assets/Mr_avatarko.png"}
+                            alt={`${username}'s profile picture`}
+                        />
                     </Button>
                 </Link>
                 <div className={styles.infoBlock}>
                     <h4>{username}</h4>
-                    <p>{rating} rating with {posts} {posts > 1 ? "posts" : "post"}</p>
+                    <p>Rating: {rating}</p>
                 </div>
             </div>
         </div>

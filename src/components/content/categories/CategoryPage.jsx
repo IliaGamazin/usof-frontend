@@ -7,6 +7,7 @@ import PostPreview from "../../common/previews/post/PostPreview.jsx";
 import {getCategory} from "../../../services/CategoryService.js";
 import {getCategoriesPosts, getPosts} from "../../../services/PostService.js";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
+import ShareButton from "../../common/share/ShareButton.jsx";
 
 export default function CategoryPage() {
     const { id } = useParams();
@@ -74,6 +75,7 @@ export default function CategoryPage() {
                     {category.description && (
                         <p className={styles.categoryDescription}>{category.description}</p>
                     )}
+                    <ShareButton />
                 </header>
             </div>
 

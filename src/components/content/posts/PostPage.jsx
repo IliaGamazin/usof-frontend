@@ -9,6 +9,7 @@ import styles from "./PostPage.module.css";
 import {Link} from "react-router-dom";
 import Button from "../../common/button/Button.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
+import ShareButton from "../../common/share/ShareButton.jsx";
 
 export default function PostPage() {
     const { id } = useParams();
@@ -78,7 +79,6 @@ export default function PostPage() {
 
     return (
         <article className={styles.postContainer}>
-
             <header className={styles.postHeader}>
                 <h1 className={styles.postTitle}>{post.title}</h1>
                 <p className={styles.postMeta}>
@@ -93,6 +93,7 @@ export default function PostPage() {
                         To favourites
                     </Button>
                 </div>
+                <ShareButton />
             </header>
             {categories && categories.length > 0 && (
                 <div className={styles.categories}>

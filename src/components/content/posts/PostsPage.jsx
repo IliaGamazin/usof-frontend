@@ -5,6 +5,7 @@ import PostPreview from "../../common/previews/post/PostPreview.jsx";
 
 import styles from "./PostsPage.module.css"
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
+import DataFilter from "../../common/pagination/DataFilter.jsx";
 
 export default function PostsPage() {
     const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ export default function PostsPage() {
             const postsData = await getPosts(
                 page, limit, orderBy, orderDir
             );
-
+            console.log(postsData);
             setPosts(postsData.data);
             setPagination(postsData.pagination)
         }
@@ -53,8 +54,23 @@ export default function PostsPage() {
 
     window.scrollTo(0, 0);
 
+    const allowedSortParams = [
+        { value: "id", label: "Id" },
+        { value: "title", label: "Title" },
+        { value: "created_at", label: "Publication date" },
+        { value: "score", label: "Score" },
+    ];
+
     return (
-        <div>
+        <>
+            <DataFilter
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                orderDir={orderDir}
+                setOrderDir={setOrderDir}
+                setPage={setPage}
+                allowedSortParams={allowedSortParams}
+            />
             <div>
                 {posts?.length > 0 && (
                     <div>
@@ -80,6 +96,6 @@ export default function PostsPage() {
                     setPage={setPage}
                 />
             )}
-        </div>
+        </>
     );
 }

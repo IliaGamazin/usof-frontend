@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect } from 'react';
 import {NavLink} from "react-router";
 
 import Button from "../../../common/button/Button.jsx";
@@ -11,7 +10,7 @@ import ratingIcon from "/src/assets/Rating_icon.svg"
 import favouriteIcon from "/src/assets/Favourite_icon.svg"
 import followedIcon from "/src/assets/Followed_icon.svg"
 import categoriesIcon from "/src/assets/Categories_icon.svg"
-import myPostsIcon from "/src/assets/My_posts_icon.svg"
+import {useAuth} from "../../../../context/AuthContext.jsx";
 
 export default function MenuSidebar({className}) {
     const getLinkClass = ({ isActive }) => {
@@ -19,6 +18,8 @@ export default function MenuSidebar({className}) {
             ? `${styles.link} ${styles.activeLink}`
             : `${styles.link} ${styles.inActiveLink}`;
     };
+
+    const {isAuthenticated} = useAuth();
 
     return (
         <div className={className}>
@@ -74,45 +75,35 @@ export default function MenuSidebar({className}) {
                         </NavLink>
                     </li>
                 </ul>
-                <ul className={styles.list}>
-                    <h3>Home</h3>
-                    <li>
-                        <NavLink
-                            className={getLinkClass}
-                            to="/posts/favourite"
-                            end
-                        >
-                            <Button className={styles.menuButton}>
-                                <img className={styles.icon} src={favouriteIcon} alt="Favourite_icon.svg"/>
-                                <span>Favourites</span>
-                            </Button>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className={getLinkClass}
-                            to="/posts/followed"
-                            end
-                        >
-                            <Button className={styles.menuButton}>
-                                <img className={styles.icon} src={followedIcon} alt="Followed_icon.svg"/>
-                                <span>Followed</span>
-                            </Button>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className={getLinkClass}
-                            to="/posts/my"
-                            end
-                        >
-                            <Button className={styles.menuButton}>
-                                <img className={styles.icon} src={myPostsIcon} alt="My_posts_icon.svg"/>
-                                <span>My posts</span>
-                            </Button>
-                        </NavLink>
-                    </li>
-                </ul>
+                {isAuthenticated && (
+                    <ul className={styles.list}>
+                        <h3>Home</h3>
+                        <li>
+                            <NavLink
+                                className={getLinkClass}
+                                to="/posts/favourite"
+                                end
+                            >
+                                <Button className={styles.menuButton}>
+                                    <img className={styles.icon} src={favouriteIcon} alt="Favourite_icon.svg"/>
+                                    <span>Favourites</span>
+                                </Button>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                className={getLinkClass}
+                                to="/posts/followed"
+                                end
+                            >
+                                <Button className={styles.menuButton}>
+                                    <img className={styles.icon} src={followedIcon} alt="Followed_icon.svg"/>
+                                    <span>Followed</span>
+                                </Button>
+                            </NavLink>
+                        </li>
+                    </ul>
+                )}
             </aside>
         </div>
     );

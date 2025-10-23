@@ -49,6 +49,10 @@ export default function ProfileButton() {
                     alt="pfp.jpg">
                 </img>
             </Link>
+            <div className={styles.userInfo}>
+                <p className={styles.login}>{user.login}</p>
+                <p className={styles.role}>[{user.role}]</p>
+            </div>
         </div>
     );
 };

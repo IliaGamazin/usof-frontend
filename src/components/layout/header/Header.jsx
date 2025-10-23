@@ -96,9 +96,6 @@ export default function Header() {
                             >
                                 <img className={styles.icon} src={searchIcon} alt="search_icon.svg"/>
                             </Button>
-                            <Button className={styles.svgButton}>
-                                <img className={styles.icon} src={bellIcon} alt="bell_icon.svg"/>
-                            </Button>
                             <Link to="?modal=write">
                                 <Button className={styles.writeButton}>
                                     <img className={styles.icon} src={pencilIcon} alt="pencil_icon.svg"/>

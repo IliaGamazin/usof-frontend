@@ -11,6 +11,7 @@ import {useAuth} from "../../../context/AuthContext.jsx";
 import PostPreview from "../../common/previews/post/PostPreview.jsx";
 import Pagination from "../../common/pagination/Pagination.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
+import ShareButton from "../../common/share/ShareButton.jsx";
 
 export default function UserPage() {
     const { id } = useParams();
@@ -95,8 +96,8 @@ export default function UserPage() {
                             {user.firstname} {user.lastname}
                         </h4>
                     </div>
-                </div>
 
+                </div>
                 <div className={styles.statsBlock}>
                     <p>
                         Rating: <span className={styles.ratingValue}>{user.rating}</span>
@@ -105,9 +106,15 @@ export default function UserPage() {
                         Joined {new Date(user.created_at).toLocaleDateString()}
                     </p>
                 </div>
+                <div>
+                    <ShareButton />
+                </div>
                 {isMe && (
                     <div className={styles.personalBlock}>
                         <h1>me</h1>
+                        {user.role === "ADMIN" && (
+                            <Link to="http://localhost:8080/admin">Admin panel</Link>
+                        )}
                     </div>
                 )}
             </div>

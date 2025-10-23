@@ -5,6 +5,7 @@ import UserPreview from "../../common/previews/user/UserPreview.jsx";
 
 import styles from "./UsersPage.module.css";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
+import DataFilter from "../../common/pagination/DataFilter.jsx";
 
 export default function UsersPage() {
     const [loading, setLoading] = useState(true);
@@ -52,22 +53,39 @@ export default function UsersPage() {
 
     window.scrollTo(0, 0);
 
+    const allowedSortParams = [
+        { value: "id", label: "Id" },
+        { value: "login", label: "Username" },
+        { value: "rating", label: "Rating" },
+        { value: "created_at", label: "Registration date" },
+    ];
+
     return (
-        <div className={styles.container}>
-            <div>
-                {users?.length > 0 && (
-                    <div className={styles.userGrid}>
-                        {users.map((user) => (
-                            <UserPreview
-                                key={user.id}
-                                id={user.id}
-                                rating={user.rating}
-                                username={user.login}
-                                pfp={user.profile_picture}
-                            />
-                        ))}
-                    </div>
-                )}
+        <>
+            <DataFilter
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                orderDir={orderDir}
+                setOrderDir={setOrderDir}
+                setPage={setPage}
+                allowedSortParams={allowedSortParams}
+            />
+            <div className={styles.container}>
+                <div>
+                    {users?.length > 0 && (
+                        <div className={styles.userGrid}>
+                            {users.map((user) => (
+                                <UserPreview
+                                    key={user.id}
+                                    id={user.id}
+                                    rating={user.rating}
+                                    username={user.login}
+                                    pfp={user.profile_picture}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
             {pagination?.total_pages > 1 && (
                 <Pagination
@@ -76,6 +94,6 @@ export default function UsersPage() {
                     setPage={setPage}
                 />
             )}
-        </div>
+        </>
     );
 }

@@ -4,6 +4,7 @@ import {getCategories} from "../../../services/CategoryService.js";
 import Pagination from "../../common/pagination/Pagination.jsx";
 import CategoryPreview from "../../common/previews/category/CategoryPreview.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
+import DataFilter from "../../common/pagination/DataFIlter.jsx";
 
 export default function CategoriesPage() {
     const [loading, setLoading] = useState(true);
@@ -52,21 +53,37 @@ export default function CategoriesPage() {
 
     window.scrollTo(0, 0);
 
+    const allowedSortParams = [
+        { value: "id", label: "Id" },
+        { value: "title", label: "Title" },
+    ];
+
     return (
-        <div className={styles.container}>
-            <div>
-                {categories?.length > 0 && (
-                    <div className={styles.categoryGrid}>
-                        {categories.map((category) => (
-                            <CategoryPreview
-                                key={category.id}
-                                id={category.id}
-                                title={category.title}
-                                description={category.description}
-                            />
-                        ))}
-                    </div>
-                )}
+        <>
+            <DataFilter
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                orderDir={orderDir}
+                setOrderDir={setOrderDir}
+                setPage={setPage}
+                allowedSortParams={allowedSortParams}
+            />
+            <div className={styles.container}>
+                <div>
+                    {categories?.length > 0 && (
+                        <div className={styles.categoryGrid}>
+                            {categories.map((category) => (
+                                <CategoryPreview
+                                    key={category.id}
+                                    id={category.id}
+                                    title={category.title}
+                                    description={category.description}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+
             </div>
             {pagination?.total_pages > 1 && (
                 <Pagination
@@ -75,6 +92,6 @@ export default function CategoriesPage() {
                     setPage={setPage}
                 />
             )}
-        </div>
+        </>
     );
 }
