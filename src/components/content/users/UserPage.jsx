@@ -1,5 +1,5 @@
 import React from 'react';
-import {useParams} from "react-router";
+import {Link, useParams} from "react-router";
 import { useState, useEffect } from 'react';
 import {getMe, getUser} from "../../../services/UserService.js";
 import {getUserPosts} from "../../../services/PostService.js";
@@ -10,6 +10,7 @@ import {useAuthFetch} from "../../../services/Api.js";
 import {useAuth} from "../../../context/AuthContext.jsx";
 import PostPreview from "../../common/previews/post/PostPreview.jsx";
 import Pagination from "../../common/pagination/Pagination.jsx";
+import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 
 export default function UserPage() {
     const { id } = useParams();
@@ -46,9 +47,6 @@ export default function UserPage() {
             }
             catch (err) {
                 console.log(err);
-                if(!user) {
-                    navigate("/*")
-                }
             }
             finally {
                 setLoading(false);
@@ -63,8 +61,18 @@ export default function UserPage() {
 
     }, [id]);
 
-    if (loading) return <div>Loading user...</div>;
-    if (!user) return <div>No user found</div>;
+    if (loading) {
+        return <PagePlaceholder type="loading" message="Loading user profile..." />;
+    }
+
+    if (!user) {
+        return (
+            <PagePlaceholder
+                type="not-found"
+                message="User not found or an error occurred"
+            />
+        );
+    }
 
     window.scrollTo(0, 0);
 
@@ -104,8 +112,7 @@ export default function UserPage() {
                 )}
             </div>
             <div>
-                <h1>All posts</h1>
-                {posts?.length > 0 && (
+                {posts?.length > 0 ? (
                     <div>
                         {posts.map(post => (
                             <PostPreview
@@ -120,6 +127,15 @@ export default function UserPage() {
                                 withLink={false}
                             />
                         ))}
+                    </div>
+                ) : (
+                    <div className={styles.emptyState}>
+                        <h2 className={styles.emptyTitle}>This user has no posts yet!</h2>
+                        {isMe && (
+                            <h3 className={styles.emptySubtitle}>
+                                Want to <Link to="?modal=write" className={styles.createLink}>create</Link> one?
+                            </h3>
+                        )}
                     </div>
                 )}
             </div>

@@ -4,6 +4,7 @@ import Pagination from "../../common/pagination/Pagination.jsx";
 import PostPreview from "../../common/previews/post/PostPreview.jsx";
 
 import styles from "./PostsPage.module.css"
+import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 
 export default function PostsPage() {
     const [loading, setLoading] = useState(true);
@@ -37,15 +38,24 @@ export default function PostsPage() {
         fetchPostsData();
     }, [page, limit, orderBy, orderDir]);
 
-    if (loading) return <div>Loading posts...</div>;
-    if (!posts) return <div>No posts found</div>;
+    if (loading) {
+        return <PagePlaceholder type="loading" message="Loading posts..." />;
+    }
+
+    if (!posts) {
+        return (
+            <PagePlaceholder
+                type="not-found"
+                message="No posts found or an error occurred"
+            />
+        );
+    }
 
     window.scrollTo(0, 0);
 
     return (
         <div>
             <div>
-                <h1>All posts</h1>
                 {posts?.length > 0 && (
                     <div>
                         {posts.map(post => (

@@ -4,6 +4,7 @@ import Pagination from "../../common/pagination/Pagination.jsx";
 import UserPreview from "../../common/previews/user/UserPreview.jsx";
 
 import styles from "./UsersPage.module.css";
+import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 
 export default function UsersPage() {
     const [loading, setLoading] = useState(true);
@@ -21,7 +22,6 @@ export default function UsersPage() {
             const usersData = await getUsers(
                 page, limit, orderBy, orderDir
             );
-            console.log(usersData)
             setUsers(usersData.data);
             setPagination(usersData.pagination);
         }
@@ -37,15 +37,24 @@ export default function UsersPage() {
        fetchUsersData();
     }, [page, limit, orderBy, orderDir]);
 
-    if (loading) return <div>Loading users...</div>;
-    if (!users) return <div>No users found</div>;
+    if (loading) {
+        return <PagePlaceholder type="loading" message="Loading users..." />;
+    }
+
+    if (!users) {
+        return (
+            <PagePlaceholder
+                type="not-found"
+                message="No users found or an error occurred"
+            />
+        );
+    }
 
     window.scrollTo(0, 0);
 
     return (
         <div className={styles.container}>
             <div>
-                <h1>All Users</h1>
                 {users?.length > 0 && (
                     <div className={styles.userGrid}>
                         {users.map((user) => (

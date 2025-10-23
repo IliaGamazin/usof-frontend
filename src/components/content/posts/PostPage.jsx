@@ -6,15 +6,18 @@ import {getMe, getUser} from "../../../services/UserService.js";
 import {useAuth} from "../../../context/AuthContext.jsx";
 
 import styles from "./PostPage.module.css";
+import {Link} from "react-router-dom";
+import Button from "../../common/button/Button.jsx";
+import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 
 export default function PostPage() {
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState(null);
+    const [categories, setCategories] = useState(null);
     const [author, setAuthor] = useState(null);
     const [images, setImages] = useState([]);
     const [isMe, setIsMe] = useState(false);
-    const navigate = useNavigate();
     const authFetch = useAuthFetch();
     const { isAuthenticated} = useAuth();
 
@@ -32,6 +35,8 @@ export default function PostPage() {
             setPost(postData.post);
             setAuthor(authorData);
             setImages(postData.images);
+            setCategories(postData.categories);
+            console.log(authorData);
         }
         catch (err) {
             console.log(err);
@@ -50,8 +55,18 @@ export default function PostPage() {
         }
     }, [id]);
 
-    if (loading) return <div>Loading post...</div>;
-    if (!post) return <div>No user found</div>;
+    if (loading) {
+        return <PagePlaceholder type="loading" message="Loading post..." />;
+    }
+
+    if (!post) {
+        return (
+            <PagePlaceholder
+                type="not-found"
+                message="Post not found or an error occurred"
+            />
+        );
+    }
 
     const postDate = new Date(post.created_at).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -63,14 +78,35 @@ export default function PostPage() {
 
     return (
         <article className={styles.postContainer}>
+
             <header className={styles.postHeader}>
                 <h1 className={styles.postTitle}>{post.title}</h1>
                 <p className={styles.postMeta}>
                     <span>Post ID: {post.id}</span>
                     <span>{postDate}</span>
                 </p>
+                <div className={styles.buttonBlock}>
+                    <Button className={styles.followButton}>
+                        Follow
+                    </Button>
+                    <Button className={styles.followButton}>
+                        To favourites
+                    </Button>
+                </div>
             </header>
-
+            {categories && categories.length > 0 && (
+                <div className={styles.categories}>
+                    {categories.map(cat => (
+                        <Link
+                            key={cat.id}
+                            to={`/categories/${cat.id}`}
+                            className={styles.categoryTag}
+                        >
+                            {cat.title}
+                        </Link>
+                    ))}
+                </div>
+            )}
             <div className={styles.postBody}>
                 <p className={styles.postContent}>{post.content}</p>
 

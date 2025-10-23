@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import styles from "../users/UsersPage.module.css";
+import styles from "./CategoriesPage.module.css";
 import {getCategories} from "../../../services/CategoryService.js";
 import Pagination from "../../common/pagination/Pagination.jsx";
 import CategoryPreview from "../../common/previews/category/CategoryPreview.jsx";
+import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 
 export default function CategoriesPage() {
     const [loading, setLoading] = useState(true);
@@ -36,17 +37,26 @@ export default function CategoriesPage() {
         fetchCategoriesData();
     }, [page, limit, orderBy, orderDir]);
 
-    if (loading) return <div>Loading categories...</div>;
-    if (!categories) return <div>No users found</div>;
+    if (loading) {
+        return <PagePlaceholder type="loading" message="Loading categories..." />;
+    }
+
+    if (!categories) {
+        return (
+            <PagePlaceholder
+                type="not-found"
+                message="No categories found or an error occurred"
+            />
+        );
+    }
 
     window.scrollTo(0, 0);
 
     return (
         <div className={styles.container}>
             <div>
-                <h1>All Categories</h1>
                 {categories?.length > 0 && (
-                    <div className={styles.userGrid}>
+                    <div className={styles.categoryGrid}>
                         {categories.map((category) => (
                             <CategoryPreview
                                 key={category.id}

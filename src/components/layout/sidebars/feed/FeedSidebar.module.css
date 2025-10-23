@@ -29,7 +29,7 @@
 }
 
 .seeAllLink {
-    color: darkorange;
+    color: rgba(255, 145, 0, 0.7);;
     text-decoration: none;
     transition: filter 0.1s ease;
 }

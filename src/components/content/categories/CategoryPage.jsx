@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router";
-
+import {Link, useNavigate, useParams} from "react-router";
 import styles from "./CategoryPage.module.css";
 import Pagination from "../../common/pagination/Pagination.jsx";
 import PostPreview from "../../common/previews/post/PostPreview.jsx";
 
 import {getCategory} from "../../../services/CategoryService.js";
 import {getCategoriesPosts, getPosts} from "../../../services/PostService.js";
+import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 
 export default function CategoryPage() {
     const { id } = useParams();
@@ -27,10 +27,8 @@ export default function CategoryPage() {
             try {
                 setLoading(true);
                 const categoryData = await getCategory(id);
-                console.log(categoryData);
                 setCategory(categoryData);
                 const postData = await getCategoriesPosts([id], page, limit, orderBy, orderDir);
-                console.log(postData);
                 setPosts(postData.data);
                 setPagination(postData.pagination);
             }
@@ -53,19 +51,34 @@ export default function CategoryPage() {
 
     }, [id]);
 
-    if (loading) return <div>Loading user...</div>;
-    if (!category) return <div>No user found</div>;
+    if (loading) {
+        return <PagePlaceholder type="loading" message="Loading category..." />;
+    }
+
+    if (!category) {
+        return (
+            <PagePlaceholder
+                type="not-found"
+                message="Category not found or an error occurred"
+            />
+        );
+    }
 
     window.scrollTo(0, 0);
 
     return (
         <>
             <div className={styles.container}>
-
+                <header className={styles.categoryHeader}>
+                    <h1 className={styles.categoryTitle}>{category.title}</h1>
+                    {category.description && (
+                        <p className={styles.categoryDescription}>{category.description}</p>
+                    )}
+                </header>
             </div>
+
             <div>
-                <h1>All posts</h1>
-                {posts?.length > 0 && (
+                {posts?.length > 0 ? (
                     <div>
                         {posts.map(post => (
                             <PostPreview
@@ -77,12 +90,19 @@ export default function CategoryPage() {
                                 score={post.score}
                                 createdAt={post.created_at}
                                 categories={post.categories}
-                                withLink={false}
                             />
                         ))}
                     </div>
+                ) : (
+                    <div className={styles.emptyState}>
+                        <h2 className={styles.emptyTitle}>This category has no posts yet!</h2>
+                        <h3 className={styles.emptySubtitle}>
+                            Want to <Link to="?modal=write" className={styles.createLink}>create</Link> one?
+                        </h3>
+                    </div>
                 )}
             </div>
+
             {pagination?.total_pages > 1 && (
                 <Pagination
                     totalPages={pagination.total_pages}

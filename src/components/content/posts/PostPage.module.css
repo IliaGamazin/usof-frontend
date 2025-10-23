@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 .postContainer {
     font-family: 'Inter', sans-serif;
     background-color: #232324;
@@ -81,4 +83,45 @@
 .imageLink:hover .postImage {
     transform: scale(1.05);
     border-color: #ea8908;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.categoryTag {
+    background-color: #ea8908;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: filter 0.2s;
+}
+
+.categoryTag:hover {
+    filter: brightness(1.2);
+}
+
+.followButton {
+    border-radius: 30px;
+    padding: 4px 12px;
+    background-color: rgba(255, 145, 0, 0.7);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: filter 0.2s ease;
+}
+
+.followButton:hover {
+    filter: brightness(0.85);
+}
+
+.buttonBlock {
+    margin-top: 10px;
+    display: flex;
+    gap: 12px;
 }
