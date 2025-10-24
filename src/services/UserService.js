@@ -14,13 +14,14 @@ export const getUser = async (id) => {
     return await response.json();
 }
 
-export const getUsers = async (page, limit, order_by, order_dir) => {
+export const getUsers = async (page, limit, order_by, order_dir, login) => {
     const params = new URLSearchParams();
 
     if (page) params.append('page', page);
     if (limit) params.append('limit', limit);
     if (order_by) params.append('order_by', order_by);
     if (order_dir) params.append('order_dir', order_dir);
+    if (login) params.append('login', login);
 
     const queryString = params.toString();
     const URL = `http://localhost:8080/api/users${queryString ? `?${queryString}` : ''}`;

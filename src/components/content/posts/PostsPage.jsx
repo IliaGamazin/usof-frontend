@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getPosts} from "../../../services/PostService.js";
+import {getPosts, getFollowedPosts, getFavouritePosts} from "../../../services/PostService.js";
 import Pagination from "../../common/pagination/Pagination/Pagination.jsx";
 import PostPreview from "../../common/previews/post/PostPreview.jsx";
 
@@ -7,10 +7,11 @@ import styles from "./PostsPage.module.css"
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 import DataFilter from "../../common/pagination/DataFilter/DataFilter.jsx";
 import CategoryFilter from "../../common/pagination/CategoryFilter/CategoryFilter.jsx";
-import {Link} from "react-router";
+import {Link, useLocation} from "react-router";
 import {useAuth} from "../../../context/AuthContext.jsx";
+import {useAuthFetch} from "../../../services/Api.js";
 
-export default function PostsPage({order = "score"}) {
+export default function PostsPage({order = "score", pageFilter = null}) {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [pagination, setPagination] = useState(null);
@@ -21,19 +22,45 @@ export default function PostsPage({order = "score"}) {
     const [orderBy, setOrderBy] = useState(order);
     const [orderDir, setOrderDir] = useState("DESC");
 
+    const location = useLocation();
     const {isAuthenticated} = useAuth();
+    const authFetch = useAuthFetch();
 
     const fetchPostsData = async () => {
         try {
             setLoading(true);
-            const postsData = await getPosts(
-                page,
-                limit,
-                orderBy,
-                orderDir,
-                categories.map((category) => category.id)
-            );
-            console.log(postsData);
+            let postsData;
+
+            if (pageFilter === "favourite") {
+                postsData = await getFavouritePosts(
+                    authFetch,
+                    page,
+                    limit,
+                    orderBy,
+                    orderDir,
+                    categories.map((category) => category.id)
+                );
+            }
+            else if (pageFilter === "followed") {
+                postsData = await getFollowedPosts(
+                    authFetch,
+                    page,
+                    limit,
+                    orderBy,
+                    orderDir,
+                    categories.map((category) => category.id)
+                );
+            }
+            else {
+                postsData = await getPosts(
+                    page,
+                    limit,
+                    orderBy,
+                    orderDir,
+                    categories.map((category) => category.id)
+                );
+            }
+
             setPosts(postsData.data);
             setPagination(postsData.pagination)
         }
@@ -51,7 +78,7 @@ export default function PostsPage({order = "score"}) {
 
     useEffect(() => {
         fetchPostsData();
-    }, [categories, page, limit, orderBy, orderDir]);
+    }, [categories, page, limit, orderBy, orderDir, pageFilter]);
 
     if (loading) {
         return <PagePlaceholder type="loading" message="Loading posts..." />;

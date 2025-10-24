@@ -9,6 +9,7 @@ import pencilIcon from '../../../assets/Pencil_icon.svg';
 import mangoIcon from '../../../assets/mango.svg';
 import {Link} from "react-router";
 import {useAuth} from "../../../context/AuthContext.jsx";
+import GlobalSearch from "../../common/pagination/GlobalSearch/GlobalSearch.jsx";
 
 export default function Header() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -78,12 +79,7 @@ export default function Header() {
                     >
                         {isSearchOpen && (
                             <search className={styles.searchContainer}>
-                                <input
-                                    ref={inputRef}
-                                    type="text"
-                                    placeholder="Search..."
-                                    className={styles.searchInput}
-                                />
+                                <GlobalSearch />
                             </search>
                         )}
                     </li>

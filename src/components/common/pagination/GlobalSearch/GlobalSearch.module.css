@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+.globalSearch {
+    font-family: "Inter", sans-serif;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.resultsDropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    background-color: #1e1e1e;
+    border-radius: 0.5rem;
+    max-height: 700px;
+    overflow-y: auto;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.loadingMessage,
+.noResults {
+    padding: 20px;
+    text-align: center;
+    color: #8F9598;
+    font-family: 'Inter', sans-serif;
+}
+
+.resultSection {
+    padding: 16px;
+    border-bottom: 1px solid #8F9598;
+}
+
+.resultSection:last-child {
+    border-bottom: none;
+}
+
+.sectionTitle {
+    color: #ea8908;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+    font-family: 'Inter', sans-serif;
+}
+
+.resultsDropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.resultsDropdown::-webkit-scrollbar-track {
+    background: #26282B;
+}
+
+.resultsDropdown::-webkit-scrollbar-thumb {
+    background: #8F9598;
+    border-radius: 4px;
+}
+
+.resultsDropdown::-webkit-scrollbar-thumb:hover {
+    background: #ea8908;
+}

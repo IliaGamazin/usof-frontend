@@ -138,7 +138,6 @@ const SignupForm = () => {
 
         try {
             const result = await signup(formData);
-            console.log(result.access_token);
             setAccessToken(result.access_token);
             console.log('Login successful!', result);
             navigate("/");

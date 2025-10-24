@@ -9,6 +9,13 @@
     gap: 18px;
 }
 
+.error {
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    color: #fd583a;
+    margin-top: 10px;
+}
+
 .form textarea {
     width: 100%;
     border-radius: 15px;

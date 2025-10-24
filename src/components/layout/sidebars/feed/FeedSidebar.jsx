@@ -24,7 +24,6 @@ export default function FeedSidebar({className}) {
             );
             setUsers(usersData.data);
             setPagination(usersData.pagination);
-            console.log(usersData.data);
         }
         catch(err) {
             console.log(err);

@@ -9,7 +9,7 @@ import Button from "../../common/button/Button.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 import ShareButton from "../../common/share/ShareButton.jsx";
 import {useEffect, useState} from "react";
-import {useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 
 export default function PostPage() {
     const { id } = useParams();
@@ -21,7 +21,14 @@ export default function PostPage() {
     const [images, setImages] = useState([]);
     const [isMe, setIsMe] = useState(false);
     const authFetch = useAuthFetch();
+    const navigate = useNavigate();
     const { isAuthenticated} = useAuth();
+    const location = useLocation();
+    const [interactions, setInteractions] = useState({
+        like_status: "NONE",
+        followed: false,
+        favourites: false,
+    });
 
     const fetchPostData = async (id) => {
         try {
@@ -49,7 +56,48 @@ export default function PostPage() {
     };
 
     const handleVote = async (voteType) => {
+        const newLikeStatus = voteType === 'up' ? 'LIKE' : 'DISLIKE';
+        if (!isAuthenticated) {
+            navigate(`${location.pathname}?modal=auth/login`);
+            return;
+        }
+        if (interactions.like_status === newLikeStatus) {
+            setInteractions(prev => ({ ...prev, like_status: 'NONE' }));
+            setScore(prev => prev + (voteType === 'up' ? -1 : 1));
+        }
+        else {
+            let scoreDelta = 0;
+            if (interactions.like_status === 'LIKE') {
+                scoreDelta = voteType === 'up' ? 0 : -2;
+            }
+            else if (interactions.like_status === 'DISLIKE') {
+                scoreDelta = voteType === 'up' ? 2 : 0;
+            }
+            else {
+                scoreDelta = voteType === 'up' ? 1 : -1;
+            }
+
+            setInteractions(prev => ({ ...prev, like_status: newLikeStatus }));
+            setScore(prev => prev + scoreDelta);
+        }
+
         console.log(`Voting ${voteType} for post ${id}`);
+    };
+
+    const handleFollowToggle = async () => {
+        if (!isAuthenticated) {
+            navigate(`${location.pathname}?modal=auth/login`);
+            return;
+        }
+        setInteractions(prev => ({ ...prev, followed: !prev.followed }));
+    };
+
+    const handleFavouriteToggle = async () => {
+        if (!isAuthenticated) {
+            navigate(`${location.pathname}?modal=auth/login`);
+            return;
+        }
+        setInteractions(prev => ({ ...prev, favourites: !prev.favourites }));
     };
 
     useEffect(() => {
@@ -88,7 +136,7 @@ export default function PostPage() {
                 <div className={styles.postHeaderTop}>
                     <div className={styles.votingSection}>
                         <button
-                            className={styles.voteButton}
+                            className={`${styles.voteButton} ${interactions.like_status === 'LIKE' ? styles.voteButtonActive : ''}`}
                             onClick={() => handleVote('up')}
                             aria-label="Upvote"
                         >
@@ -99,9 +147,9 @@ export default function PostPage() {
                                 />
                             </svg>
                         </button>
-                        <span className={styles.postScore}>{post.score || 0}</span>
+                        <span className={styles.postScore}>{score || 0}</span>
                         <button
-                            className={styles.voteButton}
+                            className={`${styles.voteButton} ${interactions.like_status === 'DISLIKE' ? styles.voteButtonActive : ''}`}
                             onClick={() => handleVote('down')}
                             aria-label="Downvote"
                         >
@@ -137,11 +185,17 @@ export default function PostPage() {
                     </div>
                 </div>
                 <div className={styles.buttonBlock}>
-                    <Button className={styles.followButton}>
-                        Follow
+                    <Button
+                        className={styles.followButton}
+                        onClick={handleFollowToggle}
+                    >
+                        {interactions.followed ? 'Unfollow' : 'Follow'}
                     </Button>
-                    <Button className={styles.followButton}>
-                        To favourites
+                    <Button
+                        className={styles.followButton}
+                        onClick={handleFavouriteToggle}
+                    >
+                        {interactions.favourites ? 'Remove from favourites' : 'To favourites'}
                     </Button>
                 </div>
                 <ShareButton />
@@ -173,17 +227,17 @@ export default function PostPage() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.imageLink}
-                                >
+                                    >
                                     <img
                                         src={`http://localhost:8080${image.file_path}`}
                                         alt="Post attachment"
                                         className={styles.postImage}
                                     />
                                 </a>
-                            ))}
+                                ))}
                         </div>
                     </div>
-                )}
+                    )}
             </div>
         </article>
     );

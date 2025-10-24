@@ -66,13 +66,11 @@ export default function UserPage() {
                     limit,
                     orderBy,
                     orderDir,
-                    categories,
+                    categories.map((category) => category.id),
                     id
                 );
                 setPosts(postData.data);
                 setPagination(postData.pagination);
-                console.log(userData);
-
             }
             catch (err) {
                 console.log(err);

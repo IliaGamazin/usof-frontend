@@ -19,6 +19,11 @@
     padding-bottom: 16px;
 }
 
+.voteButtonActive {
+    color: #ea8908 !important;
+    background-color: rgba(234, 137, 8, 0.2) !important;
+}
+
 .postTitle {
     color: #fff;
     font-size: 2rem;
