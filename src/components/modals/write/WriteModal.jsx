@@ -6,7 +6,7 @@ import Button from "../../common/button/Button.jsx";
 
 import styles from "./WriteModal.module.css";
 import FileUpload from "../../common/upload/FileUpload.jsx";
-import CategoriesList from "../../common/categories/CategoriesList.jsx";
+import CategoryFilter from "../../common/pagination/CategoryFilter/CategoryFilter.jsx";
 
 export default function WriteModal() {
     const [, setSearchParams] = useSearchParams();
@@ -21,7 +21,7 @@ export default function WriteModal() {
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
     const [previewUrls, setPreviewUrls] = useState([]);
-    const [categories, setCategories] = useState(["C#", "Java", "Advanced Python Django framework", "Swine", "Intermediate racism",]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         if (images.length === 0) {
@@ -45,9 +45,9 @@ export default function WriteModal() {
                     required={true}
                 />
 
-                <CategoriesList
-                    categories={categories}
-                    setCategories={setCategories}
+                <CategoryFilter
+                    selectedCategories={categories}
+                    setSelectedCategories={setCategories}
                 />
 
                 <textarea

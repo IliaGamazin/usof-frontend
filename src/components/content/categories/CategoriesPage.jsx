@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import styles from "./CategoriesPage.module.css";
 import {getCategories} from "../../../services/CategoryService.js";
-import Pagination from "../../common/pagination/Pagination.jsx";
+import Pagination from "../../common/pagination/Pagination/Pagination.jsx";
 import CategoryPreview from "../../common/previews/category/CategoryPreview.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
-import DataFilter from "../../common/pagination/DataFIlter.jsx";
+import DataFilter from "../../common/pagination/DataFilter/DataFilter.jsx";
 
 export default function CategoriesPage() {
     const [loading, setLoading] = useState(true);

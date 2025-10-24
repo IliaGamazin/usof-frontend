@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {getUsers} from "../../../services/UserService.js";
-import Pagination from "../../common/pagination/Pagination.jsx";
+import Pagination from "../../common/pagination/Pagination/Pagination.jsx";
 import UserPreview from "../../common/previews/user/UserPreview.jsx";
 
 import styles from "./UsersPage.module.css";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
-import DataFilter from "../../common/pagination/DataFilter.jsx";
+import DataFilter from "../../common/pagination/DataFilter/DataFilter.jsx";
 
 export default function UsersPage() {
     const [loading, setLoading] = useState(true);

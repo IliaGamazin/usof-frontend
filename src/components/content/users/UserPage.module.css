@@ -168,6 +168,10 @@
     filter: brightness(0.85);
 }
 
+.filterBlock {
+    margin-bottom: 16px;
+}
+
 .avatarUpload {
     display: flex;
     flex-direction: column;

@@ -1,0 +1,33 @@
+.filterBlock {
+    margin-bottom: 16px;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.emptyTitle {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.emptySubtitle {
+    color: #808080;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.createLink {
+    color: rgba(255, 145, 0, 0.7);
+    text-decoration: none;
+    transition: filter 0.1s ease;
+}
+
+.createLink:hover {
+    filter: brightness(0.85);
+}

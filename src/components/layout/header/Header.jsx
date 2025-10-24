@@ -5,7 +5,6 @@ import ProfileButton from "../../common/profile/ProfileButton.jsx";
 import styles from "./Header.module.css";
 
 import searchIcon from '../../../assets/Magnifying_glass_icon.svg';
-import bellIcon from '../../../assets/Bell_icon.svg';
 import pencilIcon from '../../../assets/Pencil_icon.svg';
 import mangoIcon from '../../../assets/mango.svg';
 import {Link} from "react-router";

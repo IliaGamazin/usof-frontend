@@ -17,7 +17,7 @@ export default function CategoriesList({categories, setCategories}) {
                     <div className={styles.categoriesGrid}>
                         {categories.map((category, index) => (
                             <div key={index} className={styles.categoryItem}>
-                                <h5>{category}</h5>
+                                <h5>{category.title}</h5>
                                 <button
                                     type="button"
                                     onClick={() => removeCategory(index)}

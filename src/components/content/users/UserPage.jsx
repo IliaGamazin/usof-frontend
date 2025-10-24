@@ -2,18 +2,19 @@ import React from 'react';
 import {Link, useParams} from "react-router";
 import { useState, useEffect } from 'react';
 import {getMe, getUser, patchUser, setAvatar} from "../../../services/UserService.js";
-import {getUserPosts} from "../../../services/PostService.js";
+import {getPosts} from "../../../services/PostService.js";
 
 import styles from "./UserPage.module.css";
 import {useAuthFetch} from "../../../services/Api.js";
 import {useAuth} from "../../../context/AuthContext.jsx";
 import PostPreview from "../../common/previews/post/PostPreview.jsx";
-import Pagination from "../../common/pagination/Pagination.jsx";
+import Pagination from "../../common/pagination/Pagination/Pagination.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 import ShareButton from "../../common/share/ShareButton.jsx";
 import Button from "../../common/button/Button.jsx";
 import { logout, resetPassword } from '../../../services/AuthService.js';
-import DataFilter from "../../common/pagination/DataFilter.jsx";
+import DataFilter from "../../common/pagination/DataFilter/DataFilter.jsx";
+import CategoryFilter from "../../common/pagination/CategoryFilter/CategoryFilter.jsx";
 
 export default function UserPage() {
     const { id } = useParams();
@@ -26,6 +27,7 @@ export default function UserPage() {
     const [posts, setPosts] = useState([]);
     const [pagination, setPagination] = useState(null);
 
+    const [categories, setCategories] = useState([]);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [orderBy, setOrderBy] = useState("score");
@@ -44,6 +46,7 @@ export default function UserPage() {
     useEffect(() => {
         const fetchUserData = async (id) => {
             try {
+                setIsMe(false);
                 setLoading(true);
                 const userData = await getUser(id);
                 setUser(userData);
@@ -58,10 +61,18 @@ export default function UserPage() {
                         setIsMe(true);
                     }
                 }
-                const postData = await getUserPosts(id, page, limit, orderBy, orderDir);
+                const postData = await getPosts(
+                    page,
+                    limit,
+                    orderBy,
+                    orderDir,
+                    categories,
+                    id
+                );
                 setPosts(postData.data);
                 setPagination(postData.pagination);
                 console.log(userData);
+
             }
             catch (err) {
                 console.log(err);
@@ -77,7 +88,7 @@ export default function UserPage() {
                 .finally(() => setLoading(false));
         }
 
-    }, [id, page, limit, orderBy, orderDir]);
+    }, [page, limit, orderBy, orderDir, categories, id]);
 
     const handleLogout = async () => {
         try {
@@ -97,9 +108,7 @@ export default function UserPage() {
             editedUser.pfp = editedUser.profile_picture;
             setUser(editedUser);
             if (avatarFile) {
-                console.log('Avatar file:', avatarFile);
-                const res = await setAvatar(authFetch, avatarFile);
-                console.log(res);
+                await setAvatar(authFetch, avatarFile);
             }
             setIsEditing(false);
         }
@@ -298,18 +307,23 @@ export default function UserPage() {
                     </div>
                 )}
             </div>
-
             <div>
+                <div className={styles.filterBlock}>
+                    <DataFilter
+                        orderBy={orderBy}
+                        setOrderBy={setOrderBy}
+                        orderDir={orderDir}
+                        setOrderDir={setOrderDir}
+                        setPage={setPage}
+                        allowedSortParams={allowedSortParams}
+                    />
+                    <CategoryFilter
+                        selectedCategories={categories}
+                        setSelectedCategories={setCategories}
+                    />
+                </div>
                 {posts?.length > 0 ? (
                     <div>
-                        <DataFilter
-                            orderBy={orderBy}
-                            setOrderBy={setOrderBy}
-                            orderDir={orderDir}
-                            setOrderDir={setOrderDir}
-                            setPage={setPage}
-                            allowedSortParams={allowedSortParams}
-                        />
                         <div>
                             {posts.map(post => (
                                 <PostPreview
@@ -328,7 +342,7 @@ export default function UserPage() {
                     </div>
                 ) : (
                     <div className={styles.emptyState}>
-                        <h2 className={styles.emptyTitle}>This user has no posts yet!</h2>
+                        <h2 className={styles.emptyTitle}>This user has no posts with these filters yet!</h2>
                         {isMe && (
                             <h3 className={styles.emptySubtitle}>
                                 Want to <Link to="?modal=write" className={styles.createLink}>create</Link> one?
