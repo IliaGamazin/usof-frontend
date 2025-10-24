@@ -2,8 +2,6 @@ import Button from "../../button/Button.jsx";
 
 import styles from "./TrendingComment.module.css"
 
-import likeIcon from '/src/assets/Like_icon.svg'
-import dislikeIcon from '/src/assets/Dislike_icon.svg'
 import {Link} from "react-router";
 
 export default function TrendingComment(
@@ -39,13 +37,7 @@ export default function TrendingComment(
                 </li>
                 <li>
                     <span className={styles.ratingSpan}>
-                        <Button className={styles.reactButton}>
-                            <img src={likeIcon} alt="like_icon.svg"/>
-                        </Button>
-                        <Button className={styles.reactButton}>
-                            <img src={dislikeIcon} alt="like_icon.svg"/>
-                        </Button>
-                        <p>{rating}</p>
+                        <p>Score: {rating}</p>
                     </span>
                 </li>
             </ul>

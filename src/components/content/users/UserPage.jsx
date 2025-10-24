@@ -1,9 +1,8 @@
 import React from 'react';
 import {Link, useParams} from "react-router";
 import { useState, useEffect } from 'react';
-import {getMe, getUser} from "../../../services/UserService.js";
+import {getMe, getUser, patchUser, setAvatar} from "../../../services/UserService.js";
 import {getUserPosts} from "../../../services/PostService.js";
-import {useNavigate} from "react-router";
 
 import styles from "./UserPage.module.css";
 import {useAuthFetch} from "../../../services/Api.js";
@@ -12,15 +11,17 @@ import PostPreview from "../../common/previews/post/PostPreview.jsx";
 import Pagination from "../../common/pagination/Pagination.jsx";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 import ShareButton from "../../common/share/ShareButton.jsx";
+import Button from "../../common/button/Button.jsx";
+import { logout, resetPassword } from '../../../services/AuthService.js';
+import DataFilter from "../../common/pagination/DataFilter.jsx";
 
 export default function UserPage() {
     const { id } = useParams();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isMe, setIsMe] = useState(false);
-    const navigate = useNavigate();
     const authFetch = useAuthFetch();
-    const { isAuthenticated} = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const [posts, setPosts] = useState([]);
     const [pagination, setPagination] = useState(null);
@@ -30,12 +31,27 @@ export default function UserPage() {
     const [orderBy, setOrderBy] = useState("score");
     const [orderDir, setOrderDir] = useState("DESC");
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [editForm, setEditForm] = useState({
+        login: '',
+        firstname: '',
+        lastname: '',
+    });
+    const [avatarFile, setAvatarFile] = useState(null);
+    const [avatarPreview, setAvatarPreview] = useState(null);
+    const [avatarKey, setAvatarKey] = useState(0);
+
     useEffect(() => {
         const fetchUserData = async (id) => {
             try {
                 setLoading(true);
                 const userData = await getUser(id);
                 setUser(userData);
+                setEditForm({
+                    login: userData.login,
+                    firstname: userData.firstname,
+                    lastname: userData.lastname,
+                });
                 if (isAuthenticated) {
                     const myData = await getMe(authFetch);
                     if (userData.id === myData.id) {
@@ -45,6 +61,7 @@ export default function UserPage() {
                 const postData = await getUserPosts(id, page, limit, orderBy, orderDir);
                 setPosts(postData.data);
                 setPagination(postData.pagination);
+                console.log(userData);
             }
             catch (err) {
                 console.log(err);
@@ -60,7 +77,73 @@ export default function UserPage() {
                 .finally(() => setLoading(false));
         }
 
-    }, [id]);
+    }, [id, page, limit, orderBy, orderDir]);
+
+    const handleLogout = async () => {
+        try {
+            await logout(authFetch);
+            window.location.href = '/';
+        }
+        catch (err) {
+            console.error('Logout failed:', err);
+        }
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        console.log('Updating profile:', editForm);
+        try {
+            let editedUser = await patchUser(authFetch, id, editForm);
+            editedUser.pfp = editedUser.profile_picture;
+            setUser(editedUser);
+            if (avatarFile) {
+                console.log('Avatar file:', avatarFile);
+                const res = await setAvatar(authFetch, avatarFile);
+                console.log(res);
+            }
+            setIsEditing(false);
+        }
+        catch (err) {
+            console.error('Edit failed:', err);
+        }
+    };
+
+    const handleCancelEdit = () => {
+        setEditForm({
+            login: user.login,
+            firstname: user.firstname,
+            lastname: user.lastname,
+        });
+        setIsEditing(false);
+        setAvatarFile(null);
+        setAvatarPreview(null);
+        setAvatarKey(prev => prev + 1);
+    };
+
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setAvatarFile(file);
+            const previewUrl = URL.createObjectURL(file);
+            setAvatarPreview(previewUrl);
+        }
+    };
+
+    const handleResetPassword = async () => {
+        try {
+            await resetPassword(authFetch, user.email);
+            window.location.href = '/';
+        }
+        catch (err) {
+            console.error('Logout failed:', err);
+        }
+    };
+
+    const removeAvatar = () => {
+        setAvatarFile(null);
+        setAvatarPreview(null);
+        setAvatarKey(prev => prev + 1);
+    };
 
     if (loading) {
         return <PagePlaceholder type="loading" message="Loading user profile..." />;
@@ -77,27 +160,100 @@ export default function UserPage() {
 
     window.scrollTo(0, 0);
 
+    const allowedSortParams = [
+        { value: "id", label: "Id" },
+        { value: "title", label: "Title" },
+        { value: "created_at", label: "Publication date" },
+        { value: "score", label: "Score" },
+    ];
+
     return (
         <>
             <div className={styles.container}>
-                <div className={styles.profileContent}>
-                    <img
-                        src={user.pfp ? `http://localhost:8080${user.pfp}` : "/src/assets/Mr_avatarko.png"}
-                        alt="Profile picture"
-                    />
-                    <div className={styles.credentials}>
-                        <div className={styles.nameBlock}>
-                            <h3 className={styles.nickname}>{user.login}</h3>
-                            <span className={styles.role}>[{user.role}]</span>
-                        </div>
-
-                        <p className={styles.fullNameLabel}>Full name:</p>
-                        <h4 className={styles.name}>
-                            {user.firstname} {user.lastname}
-                        </h4>
+                <div className={`${styles.profileContent} ${isEditing ? styles.centered : ''}`}>
+                    <div className={styles.avatarSection}>
+                        <img
+                            src={avatarPreview || (user.pfp ? `http://localhost:8080${user.pfp}` : "/src/assets/Mr_avatarko.png")}
+                            alt="Profile picture"
+                            className={styles.profileImage}
+                        />
+                        {isEditing && (
+                            <div className={styles.avatarUpload}>
+                                <label className={styles.avatarUploadLabel}>
+                                    Change Avatar
+                                    <input
+                                        key={avatarKey}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleAvatarChange}
+                                        className={styles.avatarInput}
+                                    />
+                                </label>
+                                {avatarPreview && (
+                                    <Button
+                                        className={styles.removeAvatarButton}
+                                        onClick={removeAvatar}
+                                    >
+                                        Remove
+                                    </Button>
+                                )}
+                            </div>
+                        )}
                     </div>
-
+                    <div className={styles.credentials}>
+                        {isEditing ? (
+                            <form onSubmit={handleEditSubmit} className={styles.editForm}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.formLabel}>Login</label>
+                                    <input
+                                        type="text"
+                                        value={editForm.login}
+                                        onChange={(e) => setEditForm({...editForm, login: e.target.value})}
+                                        className={styles.formInput}
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.formLabel}>First Name</label>
+                                    <input
+                                        type="text"
+                                        value={editForm.firstname}
+                                        onChange={(e) => setEditForm({...editForm, firstname: e.target.value})}
+                                        className={styles.formInput}
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.formLabel}>Last Name</label>
+                                    <input
+                                        type="text"
+                                        value={editForm.lastname}
+                                        onChange={(e) => setEditForm({...editForm, lastname: e.target.value})}
+                                        className={styles.formInput}
+                                    />
+                                </div>
+                                <div className={styles.formActions}>
+                                    <Button type="submit" className={styles.saveButton}>
+                                        Save Changes
+                                    </Button>
+                                    <Button type="button" onClick={handleCancelEdit} className={styles.cancelButton}>
+                                        Cancel
+                                    </Button>
+                                </div>
+                            </form>
+                        ) : (
+                            <>
+                                <div className={styles.nameBlock}>
+                                    <h3 className={styles.nickname}>{user.login}</h3>
+                                    <span className={styles.role}>[{user.role}]</span>
+                                </div>
+                                <p className={styles.fullNameLabel}>Full name:</p>
+                                <h4 className={styles.name}>
+                                    {user.firstname} {user.lastname}
+                                </h4>
+                            </>
+                        )}
+                    </div>
                 </div>
+
                 <div className={styles.statsBlock}>
                     <p>
                         Rating: <span className={styles.ratingValue}>{user.rating}</span>
@@ -106,34 +262,69 @@ export default function UserPage() {
                         Joined {new Date(user.created_at).toLocaleDateString()}
                     </p>
                 </div>
-                <div>
+
+                <div className={styles.actionsBlock}>
                     <ShareButton />
+                    {isMe && (
+                        <div className={styles.personalActions}>
+                            {isMe && !isEditing && (
+                                <Button
+                                    className={styles.editButton}
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Edit Profile
+                                </Button>
+                            )}
+                            <Button onClick={handleResetPassword} className={styles.resetPasswordButton}>
+                                Reset Password
+                            </Button>
+                            <Button onClick={handleLogout} className={styles.logoutButton}>
+                                Logout
+                            </Button>
+                        </div>
+                    )}
                 </div>
-                {isMe && (
-                    <div className={styles.personalBlock}>
-                        <h1>me</h1>
-                        {user.role === "ADMIN" && (
-                            <Link to="http://localhost:8080/admin">Admin panel</Link>
-                        )}
+
+                {isMe && user.role === "ADMIN" && (
+                    <div className={styles.adminBlock}>
+                        <Link
+                            to="http://localhost:8080/admin"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            className={styles.adminLink}
+                        >
+                            Admin panel
+                        </Link>
                     </div>
                 )}
             </div>
+
             <div>
                 {posts?.length > 0 ? (
                     <div>
-                        {posts.map(post => (
-                            <PostPreview
-                                key={post.id}
-                                author_id={post.author_id}
-                                id={post.id}
-                                title={post.title}
-                                content={post.content}
-                                score={post.score}
-                                createdAt={post.created_at}
-                                categories={post.categories}
-                                withLink={false}
-                            />
-                        ))}
+                        <DataFilter
+                            orderBy={orderBy}
+                            setOrderBy={setOrderBy}
+                            orderDir={orderDir}
+                            setOrderDir={setOrderDir}
+                            setPage={setPage}
+                            allowedSortParams={allowedSortParams}
+                        />
+                        <div>
+                            {posts.map(post => (
+                                <PostPreview
+                                    key={post.id}
+                                    author_id={post.author_id}
+                                    id={post.id}
+                                    title={post.title}
+                                    content={post.content}
+                                    score={post.score}
+                                    createdAt={post.created_at}
+                                    categories={post.categories}
+                                    withLink={false}
+                                />
+                            ))}
+                        </div>
                     </div>
                 ) : (
                     <div className={styles.emptyState}>
@@ -146,13 +337,14 @@ export default function UserPage() {
                     </div>
                 )}
             </div>
-            {pagination?.total_pages > 1 && (
-                <Pagination
-                    totalPages={pagination.total_pages}
-                    currentPage={page}
-                    setPage={setPage}
-                />
-            )}
+
+                {pagination?.total_pages > 1 && (
+                    <Pagination
+                        totalPages={pagination.total_pages}
+                        currentPage={page}
+                        setPage={setPage}
+                    />
+                )}
         </>
     );
 }

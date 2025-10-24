@@ -8,6 +8,7 @@ import {getCategory} from "../../../services/CategoryService.js";
 import {getCategoriesPosts, getPosts} from "../../../services/PostService.js";
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 import ShareButton from "../../common/share/ShareButton.jsx";
+import DataFilter from "../../common/pagination/DataFilter.jsx";
 
 export default function CategoryPage() {
     const { id } = useParams();
@@ -50,7 +51,7 @@ export default function CategoryPage() {
                 .finally(() => setLoading(false));
         }
 
-    }, [id]);
+    }, [id, page, limit, orderBy, orderDir]);
 
     if (loading) {
         return <PagePlaceholder type="loading" message="Loading category..." />;
@@ -67,6 +68,13 @@ export default function CategoryPage() {
 
     window.scrollTo(0, 0);
 
+    const allowedSortParams = [
+        { value: "id", label: "Id" },
+        { value: "title", label: "Title" },
+        { value: "created_at", label: "Publication date" },
+        { value: "score", label: "Score" },
+    ];
+
     return (
         <>
             <div className={styles.container}>
@@ -82,18 +90,28 @@ export default function CategoryPage() {
             <div>
                 {posts?.length > 0 ? (
                     <div>
-                        {posts.map(post => (
-                            <PostPreview
-                                key={post.id}
-                                author_id={post.author_id}
-                                id={post.id}
-                                title={post.title}
-                                content={post.content}
-                                score={post.score}
-                                createdAt={post.created_at}
-                                categories={post.categories}
-                            />
-                        ))}
+                        <DataFilter
+                            orderBy={orderBy}
+                            setOrderBy={setOrderBy}
+                            orderDir={orderDir}
+                            setOrderDir={setOrderDir}
+                            setPage={setPage}
+                            allowedSortParams={allowedSortParams}
+                        />
+                        <div>
+                            {posts.map(post => (
+                                <PostPreview
+                                    key={post.id}
+                                    author_id={post.author_id}
+                                    id={post.id}
+                                    title={post.title}
+                                    content={post.content}
+                                    score={post.score}
+                                    createdAt={post.created_at}
+                                    categories={post.categories}
+                                />
+                            ))}
+                        </div>
                     </div>
                 ) : (
                     <div className={styles.emptyState}>

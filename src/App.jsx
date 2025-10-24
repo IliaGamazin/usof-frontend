@@ -1,4 +1,3 @@
-import {useState} from "react";
 import { Routes, Route } from 'react-router-dom';
 
 import Dashboard from "./components/layout/dashboard/Dashboard.jsx";
@@ -12,12 +11,14 @@ import CommentsPage from "./components/content/comments/CommentsPage.jsx";
 import CommentPage from "./components/content/comments/CommentPage.jsx";
 import NotFound from "./components/content/notfound/NotFound.jsx";
 import {Navigate} from "react-router";
+import ResetPassword from "./components/content/reset/ResetPassword.jsx";
 
 function App() {
     return (
         <Routes>
+            <Route path="/password-reset/:token" element={<ResetPassword />} />
             <Route path="/" element={<Dashboard />}>
-                <Route index element={<Navigate to="/posts/recent" replace />} />
+                <Route index element={<Navigate to="/posts/trending" replace />} />
 
                 <Route path="categories" element={<CategoriesPage />} />
                 <Route path={"categories/:id"} element={<CategoryPage />} />
@@ -25,10 +26,10 @@ function App() {
                 <Route path="users" element={<UsersPage />} />
                 <Route path={"users/:id"} element={<UserPage />}/>
 
-                <Route path="posts" element={<PostsPage />} />
+                <Route path="posts" element={<PostsPage order={"score"} />} />
 
-                <Route path="posts/trending" element={<PostsPage />} />
-                <Route path="posts/recent" element={<PostsPage />} />
+                <Route path="posts/trending" element={<PostsPage order={"score"}/>} />
+                <Route path="posts/recent" element={<PostsPage order={"created_at"}/>} />
                 <Route path="posts/favourite" element={<PostsPage />} />
                 <Route path="posts/followed" element={<PostsPage />} />
                 <Route path="posts/my" element={<PostsPage />} />

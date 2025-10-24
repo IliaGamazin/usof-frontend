@@ -53,10 +53,6 @@ const LoginForm = () => {
             </div>
             <h2 className={styles.subtitle}>Welcome back!</h2>
 
-            {error &&  (
-                <h1>{error}</h1>
-            )}
-
             <ul className={styles.list}>
                 <li>
                     <input
@@ -98,6 +94,11 @@ const LoginForm = () => {
                     >Log In</Button>
                 </li>
             </ul>
+
+            {error &&  (
+                <h3 className={styles.error}>{error}</h3>
+            )}
+
             <label>
                 Wanna <Link to="?modal=auth/signup">sign up</Link> instead?
             </label>
@@ -154,10 +155,6 @@ const SignupForm = () => {
                 <img className={styles.icon} src={mangoIcon} alt=""/>
             </div>
             <h2 className={styles.subtitle}>Join today!</h2>
-
-            {error &&  (
-                <h1>{error}</h1>
-            )}
 
             <ul className={styles.list}>
                 <li>
@@ -233,6 +230,9 @@ const SignupForm = () => {
                     </Button>
                 </li>
             </ul>
+            {error &&  (
+                <h3 className={styles.error}>{error}</h3>
+            )}
             <label>
                 Wanna <Link to="?modal=auth/login">log in</Link> instead?
             </label>

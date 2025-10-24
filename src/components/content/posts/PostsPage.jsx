@@ -7,14 +7,14 @@ import styles from "./PostsPage.module.css"
 import PagePlaceholder from "../../common/placeholder/PagePlaceholder.jsx";
 import DataFilter from "../../common/pagination/DataFilter.jsx";
 
-export default function PostsPage() {
+export default function PostsPage({order = "score"}) {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [pagination, setPagination] = useState(null);
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const [orderBy, setOrderBy] = useState("score");
+    const [orderBy, setOrderBy] = useState(order);
     const [orderDir, setOrderDir] = useState("DESC");
 
     const fetchPostsData = async () => {
@@ -34,6 +34,10 @@ export default function PostsPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        setOrderBy(order);
+    }, [order, location.pathname]);
 
     useEffect(() => {
         fetchPostsData();

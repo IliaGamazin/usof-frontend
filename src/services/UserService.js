@@ -51,3 +51,41 @@ export const getMe = async (authFetch) => {
 
     return await response.json();
 }
+
+export const patchUser = async (authFetch, id, editForm) => {
+    const URL = `http://localhost:8080/api/users/${id}`;
+    const response = await authFetch(URL, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editForm)
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'User patch failed');
+    }
+
+    return await response.json();
+}
+
+export const setAvatar = async(authFetch, avatar) => {
+    const formData = new FormData();
+    formData.append('avatar', avatar);
+    const URL = `http://localhost:8080/api/users/avatar`;
+    const response = await authFetch(URL, {
+        method: 'PATCH',
+        credentials: 'include',
+        body: formData
+    });
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Set avatar failed');
+    }
+
+    return {success: true};
+}

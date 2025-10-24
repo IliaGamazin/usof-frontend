@@ -122,3 +122,197 @@
 .createLink:hover {
     filter: brightness(0.85);
 }
+
+.avatarSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.profileImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #444;
+}
+
+.editButton {
+    background-color: rgba(120, 184, 23, 0.95);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: filter 0.2s ease;
+}
+
+.removeAvatarButton,
+.cancelButton,
+.saveButton,
+.createButton,
+.logoutButton,
+.resetPasswordButton {
+    transition: filter 0.2s ease;
+}
+
+.removeAvatarButton:hover,
+.cancelButton:hover,
+.saveButton:hover,
+.createButton:hover,
+.logoutButton:hover,
+.resetPasswordButton:hover,
+.editButton:hover {
+    filter: brightness(0.85);
+}
+
+.avatarUpload {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.avatarUploadLabel {
+    background-color: #444;
+    color: #c6c9cc;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.2s ease;
+}
+
+.avatarUploadLabel:hover {
+    background-color: #555;
+}
+
+.avatarInput {
+    display: none;
+}
+
+.removeAvatarButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.email {
+    color: #808080;
+    margin: 8px 0 0 0;
+    font-size: 0.9rem;
+}
+
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.formLabel {
+    color: #c6c9cc;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.formInput {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.centered {
+    align-self: center;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: #ea8908;
+}
+
+.formActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.saveButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.cancelButton {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.actionsBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.personalActions {
+    display: flex;
+    gap: 12px;
+}
+
+.resetPasswordButton {
+    background-color: #ea8908;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.logoutButton {
+    background-color: #e66232;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.adminBlock {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #444;
+}
+
+.adminLink {
+    color: #ea8908;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.adminLink:hover {
+    text-decoration: underline;
+}

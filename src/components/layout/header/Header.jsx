@@ -96,7 +96,7 @@ export default function Header() {
                             >
                                 <img className={styles.icon} src={searchIcon} alt="search_icon.svg"/>
                             </Button>
-                            <Link to="?modal=write">
+                            <Link to={isAuthenticated ? "?modal=write" : "?modal=auth/login"}>
                                 <Button className={styles.writeButton}>
                                     <img className={styles.icon} src={pencilIcon} alt="pencil_icon.svg"/>
                                     <span>Write</span>
