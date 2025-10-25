@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.commentWrapper {
+    margin-left: calc(var(--depth) * 24px);
+    margin-bottom: 12px;
+}
+
+.comment {
+    display: flex;
+    gap: 12px;
+    background-color: #2a2a2b;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+.commentLoading {
+    color: #808080;
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.votingSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 32px;
+}
+
+.voteButton {
+    background: none;
+    border: none;
+    color: #808080;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voteButton:hover {
+    color: #ea8908;
+    background-color: rgba(234, 137, 8, 0.1);
+}
+
+.voteButtonActive {
+    color: #ea8908 !important;
+    background-color: rgba(234, 137, 8, 0.2) !important;
+}
+
+.score {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.commentContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.commentHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.authorLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: filter 0.2s ease;
+}
+
+.authorLink:hover {
+    filter: brightness(0.85);
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #444;
+}
+
+.authorName {
+    color: #ea8908;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.commentDate {
+    color: #808080;
+    font-size: 0.8rem;
+    margin-left: auto;
+}
+
+.commentText {
+    color: #c6c9cc;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.commentActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.replyButton,
+.showRepliesButton {
+    background: none;
+    border: none;
+    color: #808080;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.replyButton:hover,
+.showRepliesButton:hover {
+    color: #ea8908;
+    background-color: rgba(234, 137, 8, 0.1);
+}

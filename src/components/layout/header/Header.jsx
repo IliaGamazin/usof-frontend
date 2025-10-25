@@ -71,7 +71,9 @@ export default function Header() {
                 <ul className={styles.headerList}>
                     <li className={styles.titleBlock}>
                         <h2 className={styles.title}>Mangoflow</h2>
-                        <img className={styles.icon} src={mangoIcon} alt=""/>
+                        <Link to="/">
+                            <img className={styles.icon} src={mangoIcon} alt=""/>
+                        </Link>
                     </li>
                     <li
                         ref={searchRef}

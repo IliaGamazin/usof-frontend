@@ -26,7 +26,7 @@ export default function UserPage() {
 
     const [posts, setPosts] = useState([]);
     const [pagination, setPagination] = useState(null);
-
+    const [error, setError] = useState(null);
     const [categories, setCategories] = useState([]);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
@@ -100,7 +100,6 @@ export default function UserPage() {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        console.log('Updating profile:', editForm);
         try {
             let editedUser = await patchUser(authFetch, id, editForm);
             editedUser.pfp = editedUser.profile_picture;
@@ -111,7 +110,7 @@ export default function UserPage() {
             setIsEditing(false);
         }
         catch (err) {
-            console.error('Edit failed:', err);
+            setError(err.message);
         }
     };
 
@@ -125,6 +124,7 @@ export default function UserPage() {
         setAvatarFile(null);
         setAvatarPreview(null);
         setAvatarKey(prev => prev + 1);
+        setError(null);
     };
 
     const handleAvatarChange = (e) => {
@@ -209,43 +209,48 @@ export default function UserPage() {
                     </div>
                     <div className={styles.credentials}>
                         {isEditing ? (
-                            <form onSubmit={handleEditSubmit} className={styles.editForm}>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.formLabel}>Login</label>
-                                    <input
-                                        type="text"
-                                        value={editForm.login}
-                                        onChange={(e) => setEditForm({...editForm, login: e.target.value})}
-                                        className={styles.formInput}
-                                    />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.formLabel}>First Name</label>
-                                    <input
-                                        type="text"
-                                        value={editForm.firstname}
-                                        onChange={(e) => setEditForm({...editForm, firstname: e.target.value})}
-                                        className={styles.formInput}
-                                    />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.formLabel}>Last Name</label>
-                                    <input
-                                        type="text"
-                                        value={editForm.lastname}
-                                        onChange={(e) => setEditForm({...editForm, lastname: e.target.value})}
-                                        className={styles.formInput}
-                                    />
-                                </div>
-                                <div className={styles.formActions}>
-                                    <Button type="submit" className={styles.saveButton}>
-                                        Save Changes
-                                    </Button>
-                                    <Button type="button" onClick={handleCancelEdit} className={styles.cancelButton}>
-                                        Cancel
-                                    </Button>
-                                </div>
-                            </form>
+                            <div>
+                                <form onSubmit={handleEditSubmit} className={styles.editForm}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.formLabel}>Login</label>
+                                        <input
+                                            type="text"
+                                            value={editForm.login}
+                                            onChange={(e) => setEditForm({...editForm, login: e.target.value})}
+                                            className={styles.formInput}
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.formLabel}>First Name</label>
+                                        <input
+                                            type="text"
+                                            value={editForm.firstname}
+                                            onChange={(e) => setEditForm({...editForm, firstname: e.target.value})}
+                                            className={styles.formInput}
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.formLabel}>Last Name</label>
+                                        <input
+                                            type="text"
+                                            value={editForm.lastname}
+                                            onChange={(e) => setEditForm({...editForm, lastname: e.target.value})}
+                                            className={styles.formInput}
+                                        />
+                                    </div>
+                                    <div className={styles.formActions}>
+                                        <Button type="submit" className={styles.saveButton}>
+                                            Save Changes
+                                        </Button>
+                                        <Button type="button" onClick={handleCancelEdit} className={styles.cancelButton}>
+                                            Cancel
+                                        </Button>
+                                    </div>
+                                </form>
+                                {error && (
+                                    <h3 className={styles.error}>{error}</h3>
+                                )}
+                            </div>
                         ) : (
                             <>
                                 <div className={styles.nameBlock}>

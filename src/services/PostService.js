@@ -15,6 +15,23 @@ export const getPost = async (id) => {
 }
 
 
+export const patchPost = async (authFetch, id, formData) => {
+    const URL = `http://localhost:8080/api/posts/${id}`;
+    const response = await authFetch(URL, {
+        method: 'PATCH',
+        credentials: 'include',
+        body: formData
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Patching failed');
+    }
+
+    return {success: true};
+}
+
 export const getPosts = async (page, limit, order_by, order_dir, categories = null, author_id = null, title = null) => {
     const params = new URLSearchParams();
 
@@ -106,4 +123,52 @@ export const newPost = async (authFetch, formData) => {
     }
 
     return await response.json();
+}
+
+export const getPostInteractions = async (authFetch, id) => {
+    const URL = `http://localhost:8080/api/posts/${id}/userdata`;
+    const response = await authFetch(URL, {
+        method: 'GET',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Getting user metadata failed');
+    }
+
+    return await response.json();
+}
+
+export const removeLike = async (authFetch, id) => {
+    const URL = `http://localhost:8080/api/posts/${id}/like`;
+    const response = await authFetch(URL, {
+        method: 'DELETE',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Like remove failed');
+    }
+
+    return {success: true};
+}
+
+export const addLike = async (authFetch, id, type) => {
+    const URL = `http://localhost:8080/api/posts/${id}/like?type=${type}`;
+    const response = await authFetch(URL, {
+        method: 'POST',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        const res = await response.json();
+        console.log(res.error);
+        throw new Error(res.error.message || 'Like add failed');
+    }
+
+    return {success: true};
 }

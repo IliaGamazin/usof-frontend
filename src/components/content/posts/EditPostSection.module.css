@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.editForm {
+    background-color: #232324;
+    border-radius: 15px;
+    padding: 24px;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formLabel {
+    color: #c6c9cc;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.titleInput,
+.contentInput {
+    background-color: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding: 12px;
+    color: #fff;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.titleInput:focus,
+.contentInput:focus {
+    outline: none;
+    border-color: #ea8908;
+}
+
+.titleInput {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.existingImagesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.existingImageItem {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.existingImage {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border: 2px solid #444;
+    border-radius: 8px;
+    display: block;
+}
+
+.removeImageButton {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: background-color 0.2s;
+}
+
+.removeImageButton:hover {
+    background-color: rgba(220, 53, 69, 1);
+}
+
+.formActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.saveButton,
+.cancelButton {
+    transition: filter 0.2s ease;
+}
+
+.saveButton:hover,
+.cancelButton:hover {
+    filter: brightness(0.85);
+}
+
+.saveButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.cancelButton {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+}

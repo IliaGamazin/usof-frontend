@@ -1,0 +1,10 @@
+.answerList {
+    margin-top: 8px;
+}
+
+.loading {
+    color: #808080;
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}

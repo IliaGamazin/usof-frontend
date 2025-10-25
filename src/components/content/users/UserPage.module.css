@@ -158,6 +158,13 @@
     transition: filter 0.2s ease;
 }
 
+.error {
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    color: #fd583a;
+    margin-top: 10px;
+}
+
 .removeAvatarButton:hover,
 .cancelButton:hover,
 .saveButton:hover,
