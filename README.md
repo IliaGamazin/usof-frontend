@@ -10,13 +10,13 @@ This project was built as part of the Innovation Campus "Usof frontend" challeng
 
 -   **Full User Authentication**: Registration, Login, and Logout forms with validation.
 -   **Responsive Design**: Adapts to mobile, tablet, and desktop screens.
--   [cite_start]**Main Page**: View all recent posts with advanced sorting and filtering[cite: 132, 133].
+-   **Main Page**: View all recent posts with advanced sorting and filtering[cite: 132, 133].
 -   **Post Management**: Create, update, and delete posts (for authorized users).
--   [cite_start]**User Profiles**: View a user's posts and edit personal data[cite: 131, 134, 137].
--   [cite_start]**Interactive Comments**: Supports nested comments (commenting on comments) and sorts comments by likes[cite: 148, 149].
--   [cite_start]**Pagination**: Efficiently browse posts through pagination or endless scrolling[cite: 142].
--   [cite_start]**Creative Features**: Includes a social media "Share" button, a site statistics page, and a global footer[cite: 178, 179].
--   [cite_start]**Global Search**: A header search bar for fast navigation[cite: 122].
+-   **User Profiles**: View a user's posts and edit personal data[cite: 131, 134, 137].
+-   **Interactive Comments**: Supports nested comments (commenting on comments) and sorts comments by likes[cite: 148, 149].
+-   **Pagination**: Efficiently browse posts through pagination or endless scrolling[cite: 142].
+-   **Creative Features**: Includes a social media "Share" button, a site statistics page, and a global footer[cite: 178, 179].
+-   **Global Search**: A header search bar for fast navigation[cite: 122].
 -   **Admin Panel**: Uses **AdminJS** for full administrative control over users, posts, and comments.
 
 ---
@@ -65,3 +65,10 @@ This project was built as part of the Innovation Campus "Usof frontend" challeng
     The AdminJS panel is served by your **backend** server.
     It will be available at:
     `http://localhost:8080` (or your configured admin URL)
+
+## Screenshots
+
+<img width="1342" height="903" alt="image" src="https://github.com/user-attachments/assets/22f4ef57-7cb8-4e76-bd71-6bc17c602aa1" />
+<img width="1265" height="922" alt="image" src="https://github.com/user-attachments/assets/aff8db72-597e-47d1-8eae-c72638e36351" />
+
+
