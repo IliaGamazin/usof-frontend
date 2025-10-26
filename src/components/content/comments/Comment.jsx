@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { getUser } from '../../../services/UserService.js';
+import {getMe, getUser} from '../../../services/UserService.js';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import AnswerList from './AnswerList.jsx';
 import styles from './Comment.module.css';
-import {getPostComments} from "../../../services/CommentService.js";
+import {getPostComments, addLike, removeLike, getLikeStatus, patchComment} from "../../../services/CommentService.js";
+import {useAuthFetch} from "../../../services/Api.js";
 
-export default function Comment({ comment, postId, depth = 0, onReply }) {
+export default function Comment({ commentId, comment, postId, depth = 0, onReply }) {
     const [author, setAuthor] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showReplies, setShowReplies] = useState(false);
@@ -17,12 +18,26 @@ export default function Comment({ comment, postId, depth = 0, onReply }) {
 
     const [likeStatus, setLikeStatus] = useState('NONE');
     const [score, setScore] = useState(parseInt(comment.score) || 0);
+    const [isMe, setIsMe] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editContent, setEditContent] = useState(comment.content);
+    const [currentContent, setCurrentContent] = useState(comment.content);
+
+    const authFetch = useAuthFetch();
 
     useEffect(() => {
         const fetchAuthor = async () => {
             try {
                 setLoading(true);
                 const userData = await getUser(comment.author_id);
+                if (isAuthenticated) {
+                    const myData = await getMe(authFetch);
+                    if (myData.id === userData.id) {
+                        setIsMe(true);
+                    }
+                    const status = await getLikeStatus(authFetch, comment.id);
+                    setLikeStatus(status.like_status);
+                }
                 setAuthor(userData);
             } catch (err) {
                 console.error('Error fetching author:', err);
@@ -44,37 +59,42 @@ export default function Comment({ comment, postId, depth = 0, onReply }) {
             }
         };
 
-        if (depth < 5) {
+        if (depth < 4) {
             fetchReplyCount();
         }
     }, [postId, comment.id, depth]);
 
-    const handleVote = (voteType) => {
+    const handleVote = async (voteType) => {
         if (!isAuthenticated) {
             navigate(`${location.pathname}?modal=auth/login`);
             return;
         }
 
         const newLikeStatus = voteType === 'up' ? 'LIKE' : 'DISLIKE';
-
-        if (likeStatus === newLikeStatus) {
-            setLikeStatus('NONE');
-            setScore(prev => prev + (voteType === 'up' ? -1 : 1));
-        } else {
-            let scoreDelta = 0;
-            if (likeStatus === 'LIKE') {
-                scoreDelta = voteType === 'up' ? 0 : -2;
-            } else if (likeStatus === 'DISLIKE') {
-                scoreDelta = voteType === 'up' ? 2 : 0;
-            } else {
-                scoreDelta = voteType === 'up' ? 1 : -1;
+        try {
+            if (likeStatus === newLikeStatus) {
+                await removeLike(authFetch, comment.id);
+                setLikeStatus('NONE');
+                setScore(prev => prev + (voteType === 'up' ? -1 : 1));
             }
+            else {
+                await addLike(authFetch, comment.id, newLikeStatus);
+                let scoreDelta = 0;
+                if (likeStatus === 'LIKE') {
+                    scoreDelta = voteType === 'up' ? 0 : -2;
+                } else if (likeStatus === 'DISLIKE') {
+                    scoreDelta = voteType === 'up' ? 2 : 0;
+                } else {
+                    scoreDelta = voteType === 'up' ? 1 : -1;
+                }
 
-            setLikeStatus(newLikeStatus);
-            setScore(prev => prev + scoreDelta);
+                setLikeStatus(newLikeStatus);
+                setScore(prev => prev + scoreDelta);
+            }
         }
-
-        console.log(`Voting ${voteType} for comment ${comment.id}`);
+        catch (err) {
+            console.log(err);
+        }
     };
 
     const handleReply = () => {
@@ -87,6 +107,31 @@ export default function Comment({ comment, postId, depth = 0, onReply }) {
 
     const handleToggleReplies = () => {
         setShowReplies(!showReplies);
+    };
+
+    const handleEditSave = async () => {
+        try {
+            await patchComment(authFetch, comment.id, editContent);
+            setCurrentContent(editContent);
+            setIsEditing(false);
+        } catch (err) {
+            console.error('Error editing comment:', err);
+        }
+    };
+
+    const handleEditCancel = () => {
+        setEditContent(currentContent);
+        setIsEditing(false);
+    };
+
+    const handleDelete = async () => {
+        try {
+            await patchComment(authFetch, comment.id, '[This comment was deleted]');
+            setCurrentContent('[This comment was deleted]');
+            setEditContent('[This comment was deleted]');
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+        }
     };
 
     if (loading) {
@@ -144,7 +189,26 @@ export default function Comment({ comment, postId, depth = 0, onReply }) {
                         <span className={styles.commentDate}>{commentDate}</span>
                     </div>
 
-                    <p className={styles.commentText}>{comment.content}</p>
+                    {isEditing ? (
+                        <div className={styles.editSection}>
+                            <textarea
+                                value={editContent}
+                                onChange={(e) => setEditContent(e.target.value)}
+                                className={styles.editTextarea}
+                                rows="3"
+                            />
+                            <div className={styles.editActions}>
+                                <button onClick={handleEditSave} className={styles.saveButton}>
+                                    Save
+                                </button>
+                                <button onClick={handleEditCancel} className={styles.cancelButton}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className={styles.commentText}>{currentContent}</p>
+                    )}
 
                     <div className={styles.commentActions}>
                         {canReply && (
@@ -156,6 +220,16 @@ export default function Comment({ comment, postId, depth = 0, onReply }) {
                             <button onClick={handleToggleReplies} className={styles.showRepliesButton}>
                                 {showReplies ? 'Hide' : 'Show'} replies ({replyCount})
                             </button>
+                        )}
+                        {isMe && !isEditing && (
+                            <>
+                                <button onClick={() => setIsEditing(true)} className={styles.editButton}>
+                                    Edit
+                                </button>
+                                <button onClick={handleDelete} className={styles.deleteButton}>
+                                    Delete
+                                </button>
+                            </>
                         )}
                     </div>
                 </div>

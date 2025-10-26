@@ -41,6 +41,7 @@ export default function AnswerList({ postId, parentId, depth, onReply, setReplyC
             {comments.map(comment => (
                 <Comment
                     key={comment.id}
+                    commentId={comment.id}
                     comment={comment}
                     postId={postId}
                     depth={depth}

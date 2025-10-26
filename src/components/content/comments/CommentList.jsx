@@ -123,6 +123,7 @@ export default function CommentList({ postId }) {
                     {comments.map(comment => (
                         <Comment
                             key={comment.id}
+                            commentId={comment.id}
                             comment={comment}
                             postId={postId}
                             depth={0}

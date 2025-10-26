@@ -5,12 +5,12 @@ import styles from "./FeedSidebar.module.css";
 import React, {useEffect, useState} from "react";
 import {getUsers} from "../../../../services/UserService.js";
 import SidebarPlaceholder from "../../../common/placeholder/SidebarPlaceholder.jsx";
+import {getComments} from "../../../../services/CommentService.js";
 
 export default function FeedSidebar({className}) {
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
-    const [pagination, setPagination] = useState(null);
-
+    const [comments, setComments] = useState([]);
     const page = 1;
     const limit = 3;
     const orderBy = "rating";
@@ -23,7 +23,23 @@ export default function FeedSidebar({className}) {
                 page, limit, orderBy, orderDir
             );
             setUsers(usersData.data);
-            setPagination(usersData.pagination);
+        }
+        catch(err) {
+            console.log(err);
+        }
+        finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchCommentsData = async () => {
+        try {
+            setLoading(true);
+            const commentsData = await getComments(
+                page, limit, "score", orderDir
+            );
+            setComments(commentsData.data);
+            console.log(commentsData.data)
         }
         catch(err) {
             console.log(err);
@@ -35,6 +51,10 @@ export default function FeedSidebar({className}) {
 
     useEffect(() => {
         fetchUsersData();
+    }, [page, limit, orderBy, orderDir]);
+
+    useEffect(() => {
+        fetchCommentsData();
     }, [page, limit, orderBy, orderDir]);
 
 
@@ -61,36 +81,20 @@ export default function FeedSidebar({className}) {
     return (
         <aside className={className}>
             <ul className={styles.list}>
-                <li className={styles.listElement}>
-                    <span className={styles.listSpan}>Trending comments</span>
-                    <TrendingComment
-                        userId={"3123"}
-                        username={"Test User Lorem Ipsum dolor sit amet"}
-                        pfpUrl={"/src/assets/FELV-cat.jpg"}
-
-                        commentableId={"129"}
-                        commentableType={"COMMENT"}
-                        commentable={"Dolor sit amet dolor sit amet"}
-
-                        comment={"Lorem ipsum dolor sit amet consetetur "}
-                        rating={190}
-                    />
-                    <TrendingComment
-                        userId={"1123"}
-                        username={"Test User"}
-                        pfpUrl={"/src/assets/FELV-cat.jpg"}
-
-                        commentableId={"119"}
-                        commentableType={"POST"}
-                        commentable={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo est nec tortor vehicula"}
-
-                        comment={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo est nec " +
-                            "tortor vehicula, sit amet porta augue laoreet. Pellentesque sed nibh a elit fringill" +
-                            "a euismod quis vitae dolor. Pellentesque augue purus, facilisis sit amet."}
-                        rating={190}
-                    />
-                    <a className={styles.seeAllLink} href="/comments">See all</a>
-                </li>
+                {comments?.length > 0 && (
+                    <li className={styles.listElement}>
+                        <span className={styles.listSpan}>Trending comments</span>
+                        {comments.map((comment) => (
+                            <TrendingComment
+                                key={comment.id}
+                                userId={comment.author_id}
+                                comment={comment.content}
+                                rating={comment.score}
+                                postId={comment.post_id}
+                            />
+                        ))}
+                    </li>
+                )}
                 {users?.length > 0 && (
                     <li className={styles.listElement}>
                         <span className={styles.listSpan}>Best bloggers</span>

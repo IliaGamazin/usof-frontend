@@ -42,7 +42,7 @@ export default function GlobalSearch() {
             try {
                 const [postsData, usersData, categoriesData] = await Promise.all([
                     getPosts(1, 1,
-                        'title', 'DESC',
+                        'title', 'ASC',
                         [],
                         null,
                         searchTerm
@@ -52,7 +52,7 @@ export default function GlobalSearch() {
                         searchTerm
                     ).catch(() => ({ data: [] })),
                     getCategories(1, 1,
-                        'title', 'DESC',
+                        'title', 'ASC',
                         searchTerm
                     ).catch(() => ({ data: [] }))
                 ]);
